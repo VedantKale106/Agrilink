@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Signup - Agrilink</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0fdf4;
+        }
+
+        nav {
+            background-color: #15803d;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #bbf7d0;
+        }
+
+        .page-container {
+            display: flex;
+            min-height: calc(100vh - 60px - 80px);
+        }
+
+        .signup-container {
+            flex: 1;
+            max-width: 500px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .features-container {
+            display: none;
+            flex: 1;
+            background-image: url('/static/featurecover.jpg');
+            /* Replace with your image path */
+            background-size: cover;
+            /* Ensures the image covers the entire container */
+            background-position: center;
+            /* Centers the background image */
+            padding: 3rem;
+            color: white;
+        }
+
+
+        @media (min-width: 1024px) {
+            .features-container {
+                display: block;
+            }
+        }
+
+        .feature-card {
+            background: rgba(32, 11, 11, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card h3 img {
+            width: 60px;
+            height: 60px;
+            margin-right: 20px;
+            border: 2px solid #000;
+            border-radius: 8px;
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .signup-header img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .signup-header h1 {
+            color: #15803d;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #15803d;
+        }
+
+        .name-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .name-group .form-group {
+            flex: 1;
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: #15803d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .signup-btn:hover {
+            background-color: #166534;
+        }
+
+        .social-signup {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .social-signup p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-btn img {
+            width: 30px;
+            /* Adjust the width as needed */
+            height: auto;
+            /* Keep the aspect ratio */
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f0fdf4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .social-btn:hover {
+            background-color: #dcfce7;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .login-link a {
+            color: #15803d;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .terms {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .terms a {
+            color: #15803d;
+            text-decoration: none;
+        }
+
+        footer {
+            background-color: #14532d;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">Agrilink</a>
+            <div class="nav-links">
+                <a href="/farmer/signup">Farmer Signup</a>
+                <a href="/customer/login">Customer Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <div class="signup-container">
+            <div class="signup-header">
+                <img src="{{ url_for('static', filename='consumer.png') }}" alt="Customer Icon">
+                <h1>Create Your Account</h1>
+                <p>Join Agrilink to access fresh, local produce</p>
+            </div>
+
+            <form method="POST" action="/customer/signup" style="padding-right: 20px;">
+                <div class="name-group">
+                    <div class="form-group" style="padding-right: 20px;">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" name="first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" name="last_name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Delivery Address</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+
+                <button type="submit" class="signup-btn">Create Account</button>
+
+                <div class="terms">
+                    By signing up, you agree to our <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy
+                        Policy</a>
+                </div>
+            </form>
+
+
+            <div class="social-signup">
+                <p>Or sign up with</p>
+                <div class="social-buttons">
+                    <div class="social-btn">
+                        <img src="{{ url_for('static', filename='google.png') }}" alt="Google">
+                    </div>
+                    <div class="social-btn">
+                        <img src="{{ url_for('static', filename='facebook.png') }}" alt="Facebook">
+                    </div>
+                </div>
+            </div>
+
+            <div class="login-link">
+                <p>Already have an account? <a href="/customer/login">Log in</a></p>
+            </div>
+        </div>
+
+        <div class="features-container">
+            <h2>Why Join Agrilink?</h2>
+            <div class="feature-card">
+                <h3>
+                    <img src="https://images.pexels.com/photos/28889052/pexels-photo-28889052/free-photo-of-close-up-of-apple-tree-branch-with-ripening-fruit.jpeg?auto=compress&cs=tinysrgb&w=600"
+                        alt="Fresh">
+                    Fresh, Local Produce
+                </h3>
+                <p>Get access to the freshest fruits, vegetables, and more, directly from local farmers.</p>
+            </div>
+            <div class="feature-card">
+                <h3>
+                    <img src="https://images.pexels.com/photos/2880741/pexels-photo-2880741.jpeg?auto=compress&cs=tinysrgb&w=600"
+                        alt="Community">
+                    Support Local Farmers
+                </h3>
+                <p>Your purchases directly support farmers in your community, promoting sustainable agriculture.</p>
+            </div>
+            <div class="feature-card">
+                <h3>
+                    <img src="https://images.pexels.com/photos/28841475/pexels-photo-28841475/free-photo-of-man-making-online-payment-with-smartphone.jpeg?auto=compress&cs=tinysrgb&w=600"
+                        alt="Convenience">
+                    Convenient Delivery
+                </h3>
+                <p>Choose between home delivery or pickup from convenient locations near you.</p>
+            </div>
+            <div class="feature-card">
+                <h3>
+                    <img src="https://images.pexels.com/photos/20133051/pexels-photo-20133051/free-photo-of-fruits-on-a-food-market.jpeg?auto=compress&cs=tinysrgb&w=600"
+                        alt="Quality">
+                    Know Your Food
+                </h3>
+                <p>Learn about where your food comes from and the farmers who grow it.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Agrilink. Connecting you to local farmers.</p>
+    </footer>
+</body>
+
+</html>

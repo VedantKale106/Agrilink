@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Signup - Agrilink</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0fdf4;
+        }
+        nav {
+            background-color: #15803d;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #bbf7d0;
+        }
+        .signup-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .form-header img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1rem;
+        }
+        .form-header h1 {
+            color: #15803d;
+            margin-bottom: 0.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #15803d;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: #15803d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #166534;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .login-link a {
+            color: #15803d;
+            text-decoration: none;
+        }
+        footer {
+            background-color: #14532d;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">Agrilink</a>
+            <div class="nav-links">
+                <a href="/farmer/login">Farmer Login</a>
+                <a href="/customer/signup">Customer Signup</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="signup-container">
+        <div class="form-header">
+            <img src="{{ url_for('static', filename='farmer.png') }}" alt="Farmer Icon">
+            <h1>Farmer Signup</h1>
+            <p>Join our community of successful farmers</p>
+        </div>
+        
+        <form method="POST" action="/farmer/signup" style="padding-right: 20px;">
+            <div class="form-group">
+                <label for="farm-name">Farm Name</label>
+                <input type="text" id="farm-name" name="farm_name" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="farmer-name">Farmer Name</label>
+                <input type="text" id="farmer-name" name="farmer_name" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="location">Farm Location</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+        
+            <button type="submit" class="submit-btn">Create Farmer Account</button>
+        </form>
+        
+        <div class="login-link">
+            <p>Already have an account? <a href="/farmer/login">Log in</a></p>
+        </div>
+        
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 Agrilink. Empowering farmers across the nation.</p>
+    </footer>
+</body>
+</html> 

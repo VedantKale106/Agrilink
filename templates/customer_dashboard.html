@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard - AgriLink</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-green-600 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/customer/dashboard" class="text-white text-xl font-bold">AgriLink</a>
+            <div>
+                <a href="/logout" class="text-white mr-4">Logout</a>
+                <a href="#" class="text-white">My Orders</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto mt-8 px-4">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Available Products</h1>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold mb-4">Products</h2>
+            {% if products %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for product in products %}
+                <div class="border rounded p-4">
+                    {% if product['image'] %}
+                    <img src="{{ url_for('static', filename='uploads/' + product['image']) }}"
+                        alt="{{ product['name'] }}"
+                        style="width: 300px; height: 200px; object-fit: cover; margin-top: 10px; border-radius: 8px;">
+                    {% endif %}
+
+                    <h3 class="font-bold text-lg mt-2">{{ product['name'] }}</h3>
+                    <p class="text-gray-600 mt-2">Category: {{ product['category'] }}</p>
+                    <p class="text-green-600 font-bold mt-3">Rs {{ product['price'] }}</p>
+                    <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full mt-5">Add to Cart</button>
+                </div>
+                {% endfor %}
+            </div>  
+            {% else %}
+            <p class="text-gray-600">You haven't added any products yet.</p>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>

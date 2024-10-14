@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Login - Agrilink</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0fdf4;
+        }
+        nav {
+            background-color: #15803d;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #bbf7d0;
+        }
+        .page-container {
+            display: flex;
+            min-height: calc(100vh - 60px - 80px); /* Subtract nav and footer heights */
+        }
+        .login-container {
+            flex: 1;
+            max-width: 400px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .benefits-container {
+            display: none; /* Hidden on mobile */
+            flex: 1;
+            background-image: url('/static/benefit.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        @media (min-width: 1024px) {
+            .benefits-container {
+                display: block;
+            }
+        }
+        .benefits-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(21, 128, 61, 0.8);
+            color: white;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .benefits-overlay h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .benefit-item img {
+            width: 60px;
+            height: 60px;
+            margin-right: 20px;
+            border: 2px solid #000;
+            border-radius: 8px;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .login-header img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+        .login-header h1 {
+            color: #15803d;
+            margin-bottom: 0.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #15803d;
+        }
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        .remember-me input {
+            margin-right: 0.5rem;
+        }
+        .forgot-password a {
+            color: #15803d;
+            text-decoration: none;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: #15803d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .login-btn:hover {
+            background-color: #166534;
+        }
+        .social-login {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        .social-login p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .social-btn img {
+            width: 30px;
+            /* Adjust the width as needed */
+            height: auto;
+            /* Keep the aspect ratio */
+        }
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f0fdf4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .social-btn:hover {
+            background-color: #dcfce7;
+        }
+        .signup-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        .signup-link a {
+            color: #15803d;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        footer {
+            background-color: #14532d;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">Agrilink</a>
+            <div class="nav-links">
+                <a href="/farmer/login">Farmer Login</a>
+                <a href="/customer/signup">Customer Signup</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="page-container">
+        <div class="login-container">
+            <div class="login-header">
+                <img src="{{ url_for('static', filename='consumer.png') }}" alt="Customer Icon">
+                <h1>Welcome Back</h1>
+                <p>Log in to access fresh, local produce</p>
+            </div>
+            
+            <form method="POST" action="/customer/login" style="margin: 20px;">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+            
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+            
+                <div class="remember-forgot">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <div class="forgot-password">
+                        <a href="/customer/forgot-password">Forgot Password?</a>
+                    </div>
+                </div>
+            
+                <button type="submit" class="login-btn">Log In</button>
+            </form>
+            
+            <!-- Displaying Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul>
+                        {% for category, message in messages %}
+                            <li class="flash-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            
+            
+            <div class="social-login">
+                <p>Or log in with</p>
+                <div class="social-buttons">
+                    <div class="social-btn">
+                        <img src="{{ url_for('static', filename='google.png') }}" alt="Google">
+                    </div>
+                    <div class="social-btn">
+                        <img src="{{ url_for('static', filename='facebook.png') }}" alt="Facebook">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="signup-link">
+                <p>Don't have an account? <a href="/customer/signup">Sign up now</a></p>
+            </div>
+        </div>
+        
+        <div class="benefits-container">
+            <div class="benefits-overlay">
+                <h2>Why Choose Agrilink?</h2>
+                <div class="benefit-item">
+                    <img src="https://images.pexels.com/photos/28889052/pexels-photo-28889052/free-photo-of-close-up-of-apple-tree-branch-with-ripening-fruit.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Fresh">                    <span>Access to fresh, local produce</span>
+                </div>
+                <div class="benefit-item">
+                    <img src="https://images.pexels.com/photos/2880741/pexels-photo-2880741.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Community">                    <span>Support local farmers directly</span>
+                </div>
+                <div class="benefit-item">
+                    <img src="https://images.pexels.com/photos/28841475/pexels-photo-28841475/free-photo-of-man-making-online-payment-with-smartphone.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Convenience">                    <span>Know your food's journey from farm to table</span>
+                </div>
+                <div class="benefit-item">
+                    <img src="https://images.pexels.com/photos/20133051/pexels-photo-20133051/free-photo-of-fruits-on-a-food-market.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Quality">                    <span>Convenient delivery or pickup options</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 Agrilink. Connecting you to local farmers.</p>
+    </footer>
+</body>
+</html>
