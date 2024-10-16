@@ -212,8 +212,8 @@
         <div class="nav-container">
             <a href="/" class="logo">Agrilink</a>
             <div class="nav-links">
-                <a href="/farmer/login">Farmer Login</a>
-                <a href="/customer/signup">Customer Signup</a>
+                <a href="/farmer/login">शेतकऱ्यांचा लॉगिन</a>
+                <a href="/customer/signup">ग्राहक साइनअप</a>
             </div>
         </div>
     </nav>
@@ -222,32 +222,32 @@
         <div class="login-container">
             <div class="login-header">
                 <img src="{{ url_for('static', filename='consumer.png') }}" alt="Customer Icon">
-                <h1>Welcome Back</h1>
-                <p>Log in to access fresh, local produce</p>
+                <h1>स्वागत आहे</h1>
+                <p>ताज्या, स्थानिक उत्पादनांमध्ये प्रवेश करण्यासाठी लॉगिन करा</p>
             </div>
             
             <form method="POST" action="/customer/login" style="margin: 20px;">
                 <div class="form-group">
-                    <label for="email">Email Address</label>
+                    <label for="email">ई-मेल पत्ता</label>
                     <input type="email" id="email" name="email" required>
                 </div>
             
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="password">पासवर्ड</label>
                     <input type="password" id="password" name="password" required>
                 </div>
             
                 <div class="remember-forgot">
                     <div class="remember-me">
                         <input type="checkbox" id="remember" name="remember">
-                        <label for="remember">Remember me</label>
+                        <label for="remember">माझी माहिती ठेवा</label>
                     </div>
                     <div class="forgot-password">
-                        <a href="/customer/forgot-password">Forgot Password?</a>
+                        <a href="/customer/forgot-password">पासवर्ड विसरलात?</a>
                     </div>
                 </div>
             
-                <button type="submit" class="login-btn">Log In</button>
+                <button type="submit" class="login-btn">लॉग इन करा</button>
             </form>
             
             <!-- Displaying Flash messages -->
@@ -261,9 +261,8 @@
                 {% endif %}
             {% endwith %}
             
-            
             <div class="social-login">
-                <p>Or log in with</p>
+                <p>किंवा यांच्यासह लॉगिन करा</p>
                 <div class="social-buttons">
                     <div class="social-btn">
                         <img src="{{ url_for('static', filename='google.png') }}" alt="Google">
@@ -275,31 +274,36 @@
             </div>
             
             <div class="signup-link">
-                <p>Don't have an account? <a href="/customer/signup">Sign up now</a></p>
+                <p>खाता नाही का? <a href="/customer/signup">आता साइन अप करा</a></p>
             </div>
         </div>
         
         <div class="benefits-container">
             <div class="benefits-overlay">
-                <h2>Why Choose Agrilink?</h2>
+                <h2>Agrilink का निवडावे?</h2>
                 <div class="benefit-item">
-                    <img src="https://images.pexels.com/photos/28889052/pexels-photo-28889052/free-photo-of-close-up-of-apple-tree-branch-with-ripening-fruit.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Fresh">                    <span>Access to fresh, local produce</span>
+                    <img src="https://images.pexels.com/photos/28889052/pexels-photo-28889052/free-photo-of-close-up-of-apple-tree-branch-with-ripening-fruit.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Fresh">
+                    <span>ताज्या, स्थानिक उत्पादनांमध्ये प्रवेश</span>
                 </div>
                 <div class="benefit-item">
-                    <img src="https://images.pexels.com/photos/2880741/pexels-photo-2880741.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Community">                    <span>Support local farmers directly</span>
+                    <img src="https://images.pexels.com/photos/2880741/pexels-photo-2880741.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Community">
+                    <span>स्थानिक शेतकऱ्यांना थेट समर्थन द्या</span>
                 </div>
                 <div class="benefit-item">
-                    <img src="https://images.pexels.com/photos/28841475/pexels-photo-28841475/free-photo-of-man-making-online-payment-with-smartphone.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Convenience">                    <span>Know your food's journey from farm to table</span>
+                    <img src="https://images.pexels.com/photos/28841475/pexels-photo-28841475/free-photo-of-man-making-online-payment-with-smartphone.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Convenience">
+                    <span>आपल्या अन्नाची यात्रा शेतावरून टेबलपर्यंत जाणून घ्या</span>
                 </div>
                 <div class="benefit-item">
-                    <img src="https://images.pexels.com/photos/20133051/pexels-photo-20133051/free-photo-of-fruits-on-a-food-market.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Quality">                    <span>Convenient delivery or pickup options</span>
+                    <img src="https://images.pexels.com/photos/20133051/pexels-photo-20133051/free-photo-of-fruits-on-a-food-market.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Quality">
+                    <span>सोयीस्कर डिलिव्हरी किंवा उचलण्याच्या पर्याय</span>
                 </div>
             </div>
         </div>
     </div>
     
     <footer>
-        <p>&copy; 2024 Agrilink. Connecting you to local farmers.</p>
+        <p>&copy; 2024 Agrilink. स्थानिक शेतकऱ्यांना तुमच्याशी जोडणे.</p>
     </footer>
 </body>
+
 </html>

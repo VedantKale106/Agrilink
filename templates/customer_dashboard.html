@@ -6,43 +6,155 @@
     <title>Customer Dashboard - AgriLink</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 </head>
+
+<style>
+    /* Form Group Styling */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Label Styling */
+.form-group label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #4A5568; /* Gray color */
+}
+
+/* Dropdown Styling */
+select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #D1D5DB; /* Gray border */
+    border-radius: 0.375rem; /* Rounded corners */
+    background-color: #FFFFFF; /* White background */
+    color: #4A5568; /* Dark gray text */
+    transition: border-color 0.2s ease-in-out;
+}
+
+/* Dropdown Focus Styling */
+select:focus {
+    border-color: #3182CE; /* Blue border on focus */
+    outline: none;
+    box-shadow: 0 0 0 1px #B2E0F0; /* Light blue shadow */
+}
+
+/* Icon Styling */
+.pointer-events-none {
+    pointer-events: none; /* Prevent clicking on the icon */
+}
+
+/* Card Container */
+.grid {
+    margin-top: 20px; /* Adds spacing above the grid */
+}
+
+/* Card Styling */
+.border {
+    border: 1px solid #e2e8f0; /* Light gray border */
+}
+
+/* Image Styling */
+img {
+    border-radius: 0.5rem; /* Rounded corners for images */
+}
+
+/* Button Styling */
+button {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover Effect on Button */
+button:hover {
+    transform: translateY(-2px); /* Button lift effect on hover */
+}
+
+/* Card Hover Effect */
+.transition-transform {
+    transition: transform 0.3s ease; /* Smooth transition for card hover */
+}
+
+.hover\:scale-105:hover {
+    transform: scale(1.05); /* Slight scale up on hover */
+}
+
+/* Font Styling */
+.font-semibold {
+    font-weight: 600; /* Bold text for important fields */
+}
+
+/* Additional Spacing */
+.mt-1 {
+    margin-top: 0.25rem; /* Spacing between text elements */
+}
+
+
+</style>
 <body class="bg-gray-100">
     <nav class="bg-green-600 p-4">
         <div class="container mx-auto flex justify-between items-center">
             <a href="/customer/dashboard" class="text-white text-xl font-bold">AgriLink</a>
             <div>
-                <a href="/logout" class="text-white mr-4">Logout</a>
-                <a href="#" class="text-white">My Orders</a>
+                <a href="/about" class="bg-white text-green-600 px-4 py-2 rounded ml-3">आमच्याबद्दल</a>
+                <a href="#" class="bg-white text-green-600 px-4 py-2 rounded ">माझ्या ऑर्डर</a>
+                <a href="/logout" class="bg-white text-green-600 px-4 py-2 rounded">बाहेर पडणे</a>
             </div>
         </div>
     </nav>
 
     <main class="container mx-auto mt-8 px-4">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Available Products</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">उपलब्ध उत्पादनं</h1>
 
         <div class="bg-white rounded-lg shadow p-6">
-            <h2 class="text-xl font-semibold mb-4">Products</h2>
+            <h2 class="text-xl font-semibold mb-4">उत्पादनं</h2>
+            
+            <!-- Category Selection Dropdown -->
+            <form method="GET" action="{{ url_for('customer_dashboard') }}">
+                <div class="form-group mb-4">
+                    <label for="category" class="block text-sm font-medium text-gray-700">श्रेणी निवडा:</label>
+                    <div class="relative mt-1">
+                        <select id="category" name="category" onchange="this.form.submit()" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded shadow leading-tight focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">सर्व श्रेण्या</option>
+                            {% for category in categories %}
+                                <option value="{{ category }}" {% if category == request.args.get('category') %}selected{% endif %}>{{ category }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 10l5 5 5-5H7z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+        
             {% if products %}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for product in products %}
-                <div class="border rounded p-4">
+                <div class="border rounded-lg shadow-lg p-4 transition-transform duration-300 transform hover:scale-105">
                     {% if product['image'] %}
                     <img src="{{ url_for('static', filename='uploads/' + product['image']) }}"
                         alt="{{ product['name'] }}"
-                        style="width: 300px; height: 200px; object-fit: cover; margin-top: 10px; border-radius: 8px;">
+                        class="w-full h-48 object-cover rounded-lg mb-4">
                     {% endif %}
-
-                    <h3 class="font-bold text-lg mt-2">{{ product['name'] }}</h3>
-                    <p class="text-gray-600 mt-2">Category: {{ product['category'] }}</p>
-                    <p class="text-green-600 font-bold mt-3">Rs {{ product['price'] }}</p>
-                    <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full mt-5">Add to Cart</button>
+            
+                    <h3 class="font-bold text-xl mt-2">{{ product['name'] }}</h3>
+                    <p class="text-gray-700 mt-1">श्रेणी: <span class="font-semibold">{{ product['category'] }}</span></p>
+                    <p class="text-gray-700 mt-1">शेतकरी: <span class="font-semibold">{{ product['farmer_name'] }}</span></p>
+                    <p class="text-gray-700 mt-1">स्थान: <span class="font-semibold">{{ product['farmer_location'] }}</span></p>
+                    <p class="text-green-600 font-bold mt-3 text-lg">रु {{ product['price'] }}</p>
+                    <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 w-full mt-4 transition-colors duration-300">गाडीमध्ये जोडा</button>
                 </div>
                 {% endfor %}
-            </div>  
+            </div>
+              
             {% else %}
-            <p class="text-gray-600">You haven't added any products yet.</p>
+            <p class="text-gray-600">या श्रेणीत कोणतीही उत्पादने सापडली नाहीत.</p>
             {% endif %}
         </div>
+        
+        
     </main>
 </body>
+
 </html>

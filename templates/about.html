@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url("{{ url_for('static', filename='featurecover.jpg') }}"); /* Background image */
+            background-size: cover;
+            background-position: center;
+            color: #2e7d32; /* Dark green text */
+            padding: 50px 0; /* Add padding to top and bottom */
+        }
+
+        /* Container Styling */
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9); /* White background with transparency */
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #388e3c; /* Lighter green for heading */
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: #388e3c; /* Lighter green for subheadings */
+            border-bottom: 2px solid #2e7d32; /* Underline for subheadings */
+            padding-bottom: 5px;
+        }
+
+        /* Mission Statement */
+        .mission {
+            background-color: #f1f8e9; /* Light green for mission statement */
+            padding: 20px;
+            border-left: 5px solid #388e3c; /* Left border */
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        /* Team Section */
+        .team {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .team-member {
+            flex: 1 1 30%;
+            margin: 10px;
+            padding: 15px;
+            background-color: #f1f8e9; /* Light green for team member card */
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px); /* Hover effect */
+        }
+
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            border: 2px solid #388e3c; /* Border around images */
+        }
+
+        .team-member h3 {
+            margin: 10px 0;
+            color: #000000; /* Dark green for names */
+        }
+
+        .team-member p {
+            color: #4caf50; /* Medium green for text */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>आमच्याबद्दल</h1>
+        <div class="mission">
+            <h2>आमचा ध्येय</h2>
+            <p>Agrilink मध्ये, आम्ही शेतकऱ्यांसाठी आणि ग्राहकांसाठी मधला भेद समाप्त करणे आणि शेतकऱ्यांना त्यांच्या उत्पादनांचे योग्य मूल्य मिळवून देणे हे लक्ष्य ठेवले आहे, तर ग्राहक थेट स्रोताकडून ताजे, सेंद्रिय उत्पादने खरेदी करू शकतात.</p>
+            <p>आम्ही शाश्वत शेतीच्या पद्धतींवर विश्वास ठेवतो आणि स्थानिक कृषीच्या विकासासाठी वचनबद्ध आहोत. आमचे प्लॅटफॉर्म शेतकऱ्यांना सक्षम करण्यासाठी डिझाइन केले आहे, ज्यामुळे त्यांना त्यांच्या उत्पादनांचे प्रदर्शन करण्यास आणि ग्राहकांशी प्रभावीपणे संपर्क साधण्यास मदत होते.</p>
+        </div>
+        
+        <h2>आमची टीम</h2>
+        <div class="team">
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/team1.jpg') }}" alt="Vedant Kale">
+                <h3>Vedant Kale</h3>
+                <p>Flask & Backend Developer</p>
+                <p>Vedant प्लॅटफॉर्मच्या मागील भागाची रचना करण्यासाठी जबाबदार आहे, ज्यामुळे ऑपरेशन्स आणि डेटा व्यवस्थापन सुलभ होतो.</p>
+            </div>
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/team2.jpeg') }}" alt="Aaditesh Kadu">
+                <h3>Aaditesh Kadu</h3>
+                <p>HTML, CSS & MongoDB तज्ञ</p>
+                <p>Aaditesh फ्रंटेंड विकास आणि डेटाबेस व्यवस्थापनावर लक्ष केंद्रित करतो, वापरकर्ता अनुकूल इंटरफेस तयार करतो.</p>
+            </div>
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/team3.jpg') }}" alt="Aditya Joshi">
+                <h3>Aditya Joshi</h3>
+                <p>UI/UX डिझाइनर</p>
+                <p>Aditya वापरकर्त्यांचा अनुभव डिझाइन करतो जो प्लॅटफॉर्मला शेतकऱ्यांसाठी आणि ग्राहकांसाठी वापरण्यासाठी अनुकूल आणि आकर्षक बनवतो.</p>
+            </div>
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/team4.jpg') }}" alt="Prathmesh Dudhale">
+                <h3>Prathmesh Dudhale</h3>
+                <p>वेब डेव्हलपर</p>
+                <p>Prathmesh वेबसाइटच्या एकूण विकासाचे निरीक्षण करतो, ज्यामुळे ती प्रभावीपणे चालते आणि वापरकर्त्यांच्या गरजांची पूर्तता होते.</p>
+            </div>
+        </div>
+        
+    </div>
+</body>
+
+</html>

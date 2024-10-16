@@ -13,21 +13,21 @@
         <div class="container mx-auto flex justify-between items-center">
             <a href="/farmer/dashboard" class="text-white text-xl font-bold">AgriLink</a>
             <div>
-                <a href="/logout" class="text-white mr-4">Log out</a>
-                <a href="/farmer/add_product" class="bg-white text-green-600 px-4 py-2 rounded">Add Product</a>
+                <a href="/about" class="bg-white text-green-600 px-4 py-2 rounded ml-3">आमच्याबद्दल</a>
+                <a href="/farmer/add_product" class="bg-white text-green-600 px-4 py-2 rounded ">उत्पादन जोडा</a>
+                <a href="/logout" class="bg-white text-green-600 px-4 py-2 rounded">बाहेर पडणे</a>
             </div>
         </div>
     </nav>
 
     <main class="container mx-auto mt-8 px-4">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">Welcome to Farmer Dashboard</h1>
-            <a href="/farmer/add_product" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">Add New
-                Product</a>
+            <h1 class="text-3xl font-bold text-gray-800">शेतकरी डॅशबोर्डमध्ये आपले स्वागत आहे</h1>
+            <a href="/farmer/add_product" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">नवीन उत्पादन जोडा</a>
         </div>
 
         <div class="bg-white rounded-lg shadow p-6">
-            <h2 class="text-xl font-semibold mb-4">Your Products</h2>
+            <h2 class="text-xl font-semibold mb-4">आपली उत्पादने</h2>
             {% if products %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {% for product in products %}
@@ -39,17 +39,18 @@
                     {% endif %}
 
                     <h3 class="font-bold text-lg mt-2">{{ product['name'] }}</h3>
-                    <p class="text-gray-600 mt-2">Category: {{ product['category'] }}</p>
-                    <p class="text-green-600 font-bold mt-3">Rs {{ product['price'] }}</p>
+                    <p class="text-gray-600 mt-2">श्रेणी: {{ product['category'] }}</p>
+                    <p class="text-green-600 font-bold mt-3">रु {{ product['price'] }}</p>
                 </div>
                 {% endfor %}
             </div>
             {% else %}
-            <p class="text-gray-600">You haven't added any products yet.</p>
+            <p class="text-gray-600">आपण अद्याप कोणतीही उत्पादने जोडलेली नाहीत.</p>
             {% endif %}
         </div>
 
     </main>
 </body>
+
 
 </html>

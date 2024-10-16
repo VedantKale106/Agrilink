@@ -136,25 +136,73 @@ def customer_login():
 @app.route('/farmer/dashboard')
 def farmer_dashboard():
     if 'user_id' in session and session['user_type'] == 'farmer':
-        products = products_collection.find()
+        farmer_id = session['user_id']  # Get the farmer's ID from the session
+        products = products_collection.find({'farmer_id': ObjectId(farmer_id)})  # Filter by farmer_id
         return render_template('farmer_dashboard.html', products=products)
     return redirect(url_for('farmer_login'))
 
+
 # Customer Dashboard Route
-@app.route('/customer/dashboard')
+@app.route('/customer/dashboard', methods=['GET', 'POST'])
 def customer_dashboard():
     if 'user_id' in session and session['user_type'] == 'customer':
-        products = products_collection.find()
-        return render_template('customer_dashboard.html', products=products)
+        selected_category = request.args.get('category')
+
+        # Debugging: Print selected category
+        print(f"Selected Category: {selected_category}")
+
+        # Fetch products based on category selection
+        if selected_category:
+            products = products_collection.find({'category': selected_category})
+            # Count products in the selected category
+            product_count = products_collection.count_documents({'category': selected_category})
+        else:
+            products = products_collection.find()  # Fetch all products if no category is selected
+            # Count all products
+            product_count = products_collection.count_documents({})
+
+        # Debugging: Print the number of products found
+        print(f"Products Found: {product_count}")
+
+        categories = products_collection.distinct('category')  # Get distinct categories for the dropdown
+        
+        product_list = []
+        # Fetch farmer details for each product
+        for product in products:
+            farmer = farmers_collection.find_one({'_id': product['farmer_id']})  # Assuming there's a farmers_collection
+            product['farmer_name'] = farmer['farmer_name'] if farmer else 'Unknown'
+            product['farmer_location'] = farmer['location'] if farmer else 'Unknown'
+            product_list.append(product)
+
+        # Debugging: Print product list
+        print(f"Products to Render: {product_list}")
+
+        return render_template('customer_dashboard.html', products=product_list, categories=categories)
+
     return redirect(url_for('customer_login'))
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 @app.route('/farmer/add_product', methods=['GET', 'POST'])
 def add_product():
     if 'user_id' in session and session['user_type'] == 'farmer':
+        # Fetch the farmer's details from the database
+        farmer = farmers_collection.find_one({'_id': ObjectId(session['user_id'])})
+
+        if not farmer:
+            return "Farmer not found", 404
+
+        # Get farmer details
+        farmer_name = farmer.get('farmer_name', 'Unknown Farmer')
+        farmer_location = farmer.get('location', 'Unknown Location')
+
         if request.method == 'POST':
             name = request.form['product_name']
             category = request.form['category']
             price = request.form['price']
+            price_unit = request.form['price_unit']  # Added this to capture price unit
             image = request.files['image']
 
             if image and allowed_file(image.filename):
@@ -164,14 +212,22 @@ def add_product():
                 product_data = {
                     'name': name,
                     'category': category,
-                    'price': price,
-                    'image': filename,  # Store the image filename in the database
-                    'farmer_id': ObjectId(session['user_id'])
+                    'price': f"{price} {price_unit}",  # Store price with unit
+                    'image': filename,
+                    'farmer_id': ObjectId(session['user_id']),
+                    'farmer_name': farmer_name,
+                    'farmer_location': farmer_location
                 }
+
+                # Insert product data into products collection
                 products_collection.insert_one(product_data)
                 return redirect(url_for('farmer_dashboard'))
-        return render_template('farmer_add_product.html')
+
+        return render_template('farmer_add_product.html', farmer_name=farmer_name, farmer_location=farmer_location)
+
     return redirect(url_for('farmer_login'))
+
+
 
 # Logout Route
 @app.route('/logout')

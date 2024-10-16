@@ -242,8 +242,8 @@
         <div class="nav-container">
             <a href="/" class="logo">Agrilink</a>
             <div class="nav-links">
-                <a href="/farmer/signup">Farmer Signup</a>
-                <a href="/customer/login">Customer Login</a>
+                <a href="/farmer/signup">शेतकऱ्यांची साइनअप</a>
+                <a href="/customer/login">ग्राहक लॉगिन</a>
             </div>
         </div>
     </nav>
@@ -252,53 +252,51 @@
         <div class="signup-container">
             <div class="signup-header">
                 <img src="{{ url_for('static', filename='consumer.png') }}" alt="Customer Icon">
-                <h1>Create Your Account</h1>
-                <p>Join Agrilink to access fresh, local produce</p>
+                <h1>आपला खाता तयार करा</h1>
+                <p>Agrilink मध्ये सामील होऊन ताजे, स्थानिक उत्पादन मिळवा</p>
             </div>
 
             <form method="POST" action="/customer/signup" style="padding-right: 20px;">
                 <div class="name-group">
                     <div class="form-group" style="padding-right: 20px;">
-                        <label for="first-name">First Name</label>
+                        <label for="first-name">पहिले नाव</label>
                         <input type="text" id="first-name" name="first_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="last-name">Last Name</label>
+                        <label for="last-name">आडनाव</label>
                         <input type="text" id="last-name" name="last_name" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email Address</label>
+                    <label for="email">ई-मेल पत्ता</label>
                     <input type="email" id="email" name="email" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="phone">Phone Number</label>
+                    <label for="phone">फोन नंबर</label>
                     <input type="tel" id="phone" name="phone" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="password">पासवर्ड</label>
                     <input type="password" id="password" name="password" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="address">Delivery Address</label>
+                    <label for="address">डिलिव्हरी पत्ता</label>
                     <input type="text" id="address" name="address" required>
                 </div>
 
-                <button type="submit" class="signup-btn">Create Account</button>
+                <button type="submit" class="signup-btn">खाता तयार करा</button>
 
                 <div class="terms">
-                    By signing up, you agree to our <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy
-                        Policy</a>
+                    साइन अप करून, आपण आमच्या <a href="/terms">सेवेच्या अटी</a> आणि <a href="/privacy">गोपनीयता धोरण</a> सह सहमत आहात
                 </div>
             </form>
 
-
             <div class="social-signup">
-                <p>Or sign up with</p>
+                <p>किंवा यांच्यासह साइन अप करा</p>
                 <div class="social-buttons">
                     <div class="social-btn">
                         <img src="{{ url_for('static', filename='google.png') }}" alt="Google">
@@ -310,49 +308,49 @@
             </div>
 
             <div class="login-link">
-                <p>Already have an account? <a href="/customer/login">Log in</a></p>
+                <p>आधीच खाता आहे का? <a href="/customer/login">लॉगिन करा</a></p>
             </div>
         </div>
 
         <div class="features-container">
-            <h2>Why Join Agrilink?</h2>
+            <h2>Agrilink मध्ये सामील होण्यासाठी कारणे</h2>
             <div class="feature-card">
                 <h3>
                     <img src="https://images.pexels.com/photos/28889052/pexels-photo-28889052/free-photo-of-close-up-of-apple-tree-branch-with-ripening-fruit.jpeg?auto=compress&cs=tinysrgb&w=600"
                         alt="Fresh">
-                    Fresh, Local Produce
+                    ताजे, स्थानिक उत्पादन
                 </h3>
-                <p>Get access to the freshest fruits, vegetables, and more, directly from local farmers.</p>
+                <p>स्थानिक शेतकऱ्यांकडून ताज्या फळे, भाज्या आणि अधिक मिळवा.</p>
             </div>
             <div class="feature-card">
                 <h3>
                     <img src="https://images.pexels.com/photos/2880741/pexels-photo-2880741.jpeg?auto=compress&cs=tinysrgb&w=600"
                         alt="Community">
-                    Support Local Farmers
+                    स्थानिक शेतकऱ्यांना समर्थन द्या
                 </h3>
-                <p>Your purchases directly support farmers in your community, promoting sustainable agriculture.</p>
+                <p>आपल्या खरेदीने आपल्या समुदायातील शेतकऱ्यांना थेट समर्थन दिले जाते, टिकाऊ कृषीला प्रोत्साहन देते.</p>
             </div>
             <div class="feature-card">
                 <h3>
                     <img src="https://images.pexels.com/photos/28841475/pexels-photo-28841475/free-photo-of-man-making-online-payment-with-smartphone.jpeg?auto=compress&cs=tinysrgb&w=600"
                         alt="Convenience">
-                    Convenient Delivery
+                    सोयीस्कर डिलिव्हरी
                 </h3>
-                <p>Choose between home delivery or pickup from convenient locations near you.</p>
+                <p>घराच्या डिलिव्हरी किंवा आपल्या जवळच्या सुविधाजनक ठिकाणांहून उचलण्यासाठी निवडा.</p>
             </div>
             <div class="feature-card">
                 <h3>
                     <img src="https://images.pexels.com/photos/20133051/pexels-photo-20133051/free-photo-of-fruits-on-a-food-market.jpeg?auto=compress&cs=tinysrgb&w=600"
                         alt="Quality">
-                    Know Your Food
+                    आपल्या अन्नाची माहिती मिळवा
                 </h3>
-                <p>Learn about where your food comes from and the farmers who grow it.</p>
+                <p>आपले अन्न कुठून येते आणि त्याला वाढवणारे शेतकरी कोण आहेत ते जाणून घ्या.</p>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2024 Agrilink. Connecting you to local farmers.</p>
+        <p>&copy; 2024 Agrilink. स्थानिक शेतकऱ्यांना तुमच्याशी जोडणे.</p>
     </footer>
 </body>
 

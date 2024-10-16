@@ -115,8 +115,8 @@
         <div class="nav-container">
             <a href="/" class="logo">Agrilink</a>
             <div class="nav-links">
-                <a href="/farmer/login">Farmer Login</a>
-                <a href="/customer/signup">Customer Signup</a>
+                <a href="/farmer/login">शेतकऱ्यांची लॉगिन</a>
+                <a href="/customer/signup">ग्राहक साइनअप</a>
             </div>
         </div>
     </nav>
@@ -124,52 +124,53 @@
     <div class="signup-container">
         <div class="form-header">
             <img src="{{ url_for('static', filename='farmer.png') }}" alt="Farmer Icon">
-            <h1>Farmer Signup</h1>
-            <p>Join our community of successful farmers</p>
+            <h1>शेतकऱ्यांची साइनअप</h1>
+            <p>यशस्वी शेतकऱ्यांच्या आमच्या समुदायात सामील व्हा</p>
         </div>
         
         <form method="POST" action="/farmer/signup" style="padding-right: 20px;">
             <div class="form-group">
-                <label for="farm-name">Farm Name</label>
+                <label for="farm-name">शेताचे नाव</label>
                 <input type="text" id="farm-name" name="farm_name" required>
             </div>
         
             <div class="form-group">
-                <label for="farmer-name">Farmer Name</label>
+                <label for="farmer-name">शेतकऱ्याचे नाव</label>
                 <input type="text" id="farmer-name" name="farmer_name" required>
             </div>
         
             <div class="form-group">
-                <label for="email">Email Address</label>
+                <label for="email">ई-मेल पत्ता</label>
                 <input type="email" id="email" name="email" required>
             </div>
         
             <div class="form-group">
-                <label for="phone">Phone Number</label>
+                <label for="phone">फोन नंबर</label>
                 <input type="tel" id="phone" name="phone" required>
             </div>
         
             <div class="form-group">
-                <label for="location">Farm Location</label>
+                <label for="location">शेताची लोकेशन</label>
                 <input type="text" id="location" name="location" required>
             </div>
         
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">पासवर्ड</label>
                 <input type="password" id="password" name="password" required>
             </div>
         
-            <button type="submit" class="submit-btn">Create Farmer Account</button>
+            <button type="submit" class="submit-btn">शेतकरी खाता तयार करा</button>
         </form>
         
         <div class="login-link">
-            <p>Already have an account? <a href="/farmer/login">Log in</a></p>
+            <p>आधीच खाता आहे का? <a href="/farmer/login">लॉगिन करा</a></p>
         </div>
         
     </div>
     
     <footer>
-        <p>&copy; 2024 Agrilink. Empowering farmers across the nation.</p>
+        <p>&copy; 2024 Agrilink. देशभरातील शेतकऱ्यांना सक्षम बनवणे.</p>
     </footer>
 </body>
+
 </html> 

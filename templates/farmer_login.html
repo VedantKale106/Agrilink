@@ -132,8 +132,8 @@
         <div class="nav-container">
             <a href="/" class="logo">Agrilink</a>
             <div class="nav-links">
-                <a href="/farmer/signup">Farmer Signup</a>
-                <a href="/customer/signup">Customer Signup</a>
+                <a href="/farmer/signup">शेतकऱ्यांची साइनअप</a>
+                <a href="/customer/signup">ग्राहक साइनअप</a>
             </div>
         </div>
     </nav>
@@ -141,45 +141,45 @@
     <div class="login-container">
         <div class="login-header">
             <img src="{{ url_for('static', filename='farmer.png') }}" alt="Farmer Icon">
-            <h1>Farmer Login</h1>
-            <p>Welcome back to Agrilink</p>
+            <h1>शेतकऱ्यांची लॉगिन</h1>
+            <p>Agrilink मध्ये आपले स्वागत आहे</p>
         </div>
         
         <form method="POST" action="/farmer/login" style="padding-right: 20px;">
             <div class="form-group">
-                <label for="email">Email Address</label>
+                <label for="email">ई-मेल पत्ता</label>
                 <input type="email" id="email" name="email" required>
             </div>
             
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">पासवर्ड</label>
                 <input type="password" id="password" name="password" required>
             </div>
             
             <div class="remember-me">
                 <input type="checkbox" id="remember">
-                <label for="remember">Remember me</label>
+                <label for="remember">माझ्या खात्याची आठवण ठेवा</label>
             </div>
             
             <div class="forgot-password">
-                <a href="/farmer/forgot-password">Forgot Password?</a>
+                <a href="/farmer/forgot-password">पासवर्ड विसरलात?</a>
             </div>
             
-            <button type="submit" class="login-btn" style="padding-left: 20px;">Log In</button>
+            <button type="submit" class="login-btn" style="padding-left: 20px;">लॉगिन करा</button>
         </form>
         
         {% if error %}
         <p style="color:red; text-align:center;">{{ error }}</p>
         {% endif %}
         
-        
         <div class="signup-link">
-            <p>Don't have an account? <a href="/farmer/signup">Sign up as a farmer</a></p>
+            <p>आधीच खाता नाही का? <a href="/farmer/signup">शेतकरी म्हणून साइन अप करा</a></p>
         </div>
     </div>
     
     <footer>
-        <p>&copy; 2024 Agrilink. Empowering farmers across the nation.</p>
+        <p>&copy; 2024 Agrilink. देशभरातील शेतकऱ्यांना सक्षम बनवणे.</p>
     </footer>
 </body>
+
 </html>
