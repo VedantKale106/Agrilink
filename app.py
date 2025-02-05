@@ -8,13 +8,6 @@ from dotenv import load_dotenv
 
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = 'static/uploads'  # Directory to save uploaded images
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit file size to 16MB
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 app.secret_key = os.getenv('SECRET_KEY')
 mongo_uri = os.getenv('MONGODB_URI')
 client = MongoClient(mongo_uri)
@@ -22,6 +15,8 @@ db = client['agrilink']
 farmers_collection = db['farmers']
 customers_collection = db['customers']
 products_collection = db['products']
+orders_collection = db['orders']
+
 
 # Landing page to select Farmer or Customer
 @app.route('/')
@@ -181,20 +176,15 @@ def customer_dashboard():
 
     return redirect(url_for('customer_login'))
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+
 
 @app.route('/farmer/add_product', methods=['GET', 'POST'])
 def add_product():
     if 'user_id' in session and session['user_type'] == 'farmer':
-        # Fetch the farmer's details from the database
         farmer = farmers_collection.find_one({'_id': ObjectId(session['user_id'])})
-
         if not farmer:
             return "Farmer not found", 404
 
-        # Get farmer details
         farmer_name = farmer.get('farmer_name', 'Unknown Farmer')
         farmer_location = farmer.get('location', 'Unknown Location')
 
@@ -202,33 +192,124 @@ def add_product():
             name = request.form['product_name']
             category = request.form['category']
             price = request.form['price']
-            price_unit = request.form['price_unit']  # Added this to capture price unit
-            image = request.files['image']
+            price_unit = request.form['price_unit']
+            image_url = request.form['image_url']  # Taking URL instead of file
 
-            if image and allowed_file(image.filename):
-                filename = secure_filename(image.filename)
-                image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            if not image_url.startswith(("http://", "https://")):
+                flash("Invalid image URL. Please provide a valid URL.", "error")
+                return redirect(url_for('add_product'))
 
-                product_data = {
-                    'name': name,
-                    'category': category,
-                    'price': f"{price} {price_unit}",  # Store price with unit
-                    'image': filename,
-                    'farmer_id': ObjectId(session['user_id']),
-                    'farmer_name': farmer_name,
-                    'farmer_location': farmer_location
-                }
+            product_data = {
+                'name': name,
+                'category': category,
+                'price': f"{price} {price_unit}",
+                'image': image_url,  # Storing URL
+                'farmer_id': ObjectId(session['user_id']),
+                'farmer_name': farmer_name,
+                'farmer_location': farmer_location
+            }
 
-                # Insert product data into products collection
-                products_collection.insert_one(product_data)
-                return redirect(url_for('farmer_dashboard'))
+            products_collection.insert_one(product_data)
+            return redirect(url_for('farmer_dashboard'))
 
         return render_template('farmer_add_product.html', farmer_name=farmer_name, farmer_location=farmer_location)
 
     return redirect(url_for('farmer_login'))
 
+@app.route('/cart/add/<product_id>', methods=['POST'])
+def add_to_cart(product_id):
+    if 'user_id' not in session or session['user_type'] != 'customer':
+        return redirect(url_for('customer_login'))
+
+    product = products_collection.find_one({'_id': ObjectId(product_id)})
+    if not product:
+        flash("Product not found!", "error")
+        return redirect(url_for('customer_dashboard'))
+
+    quantity = int(request.form.get('quantity', 1))  # Get quantity input from user
+
+    cart_item = {
+        'customer_id': ObjectId(session['user_id']),
+        'product_id': ObjectId(product_id),
+        'farmer_id': product['farmer_id'],
+        'product_name': product['name'],
+        'category': product['category'],
+        'quantity': quantity,
+        'price': product['price'],
+        'unit': product['price'].split()[-1],  # Extract unit (kg, dozen, litre, etc.)
+        'image': product['image'],
+        'status': 'Pending'  # Initial status
+    }
+
+    orders_collection.insert_one(cart_item)  # Store cart items as orders
+    flash("Added to cart!", "success")
+    return redirect(url_for('customer_orders'))
 
 
+@app.route('/customer/orders')
+def customer_orders():
+    if 'user_id' not in session or session['user_type'] != 'customer':
+        return redirect(url_for('customer_login'))
+
+    orders = list(orders_collection.find({'customer_id': ObjectId(session['user_id'])}))
+    return render_template('customer_orders.html', orders=orders)
+
+
+@app.route('/farmer/orders')
+def farmer_orders():
+    if 'user_id' not in session or session['user_type'] != 'farmer':
+        return redirect(url_for('farmer_login'))
+
+    orders = list(orders_collection.find({'farmer_id': ObjectId(session['user_id'])}))
+
+    # Fetch customer details for each order
+    for order in orders:
+        customer = customers_collection.find_one({'_id': ObjectId(order['customer_id'])})
+        order['customer'] = customer  # Add customer details to the order
+
+    return render_template('farmer_orders.html', orders=orders)
+
+
+
+@app.route('/order/deliver/<order_id>', methods=['POST'])
+def deliver_order(order_id):
+    if 'user_id' not in session or session['user_type'] != 'farmer':
+        return redirect(url_for('farmer_login'))
+
+    orders_collection.update_one({'_id': ObjectId(order_id)}, {'$set': {'status': 'Delivered'}})
+    flash("Order marked as Delivered!", "success")
+    return redirect(url_for('farmer_orders'))
+
+
+
+@app.route('/customer/profile', methods=['GET', 'POST'])
+def customer_profile():
+    if 'user_id' not in session or session['user_type'] != 'customer':
+        return redirect(url_for('customer_login'))
+
+    customer = customers_collection.find_one({'_id': ObjectId(session['user_id'])})
+
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        phone = request.form['phone']
+        address = request.form['address']
+
+        customers_collection.update_one(
+            {'_id': ObjectId(session['user_id'])},
+            {'$set': {'first_name': first_name, 'last_name': last_name, 'phone': phone, 'address': address}}
+        )
+
+        flash("Profile updated successfully!", "success")
+        return redirect(url_for('customer_profile'))
+
+    return render_template('customer_profile.html', customer=customer)
+
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 # Logout Route
 @app.route('/logout')
 def logout():

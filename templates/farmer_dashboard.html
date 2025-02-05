@@ -15,6 +15,7 @@
             <div>
                 <a href="/about" class="bg-white text-green-600 px-4 py-2 rounded ml-3">आमच्याबद्दल</a>
                 <a href="/farmer/add_product" class="bg-white text-green-600 px-4 py-2 rounded ">उत्पादन जोडा</a>
+                <a href="/farmer/orders" class="bg-white text-green-600 px-4 py-2 rounded ml-3">माझ्या ऑर्डर्स</a>
                 <a href="/logout" class="bg-white text-green-600 px-4 py-2 rounded">बाहेर पडणे</a>
             </div>
         </div>
@@ -23,7 +24,8 @@
     <main class="container mx-auto mt-8 px-4">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-gray-800">शेतकरी डॅशबोर्डमध्ये आपले स्वागत आहे</h1>
-            <a href="/farmer/add_product" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">नवीन उत्पादन जोडा</a>
+            <a href="/farmer/add_product" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">नवीन
+                उत्पादन जोडा</a>
         </div>
 
         <div class="bg-white rounded-lg shadow p-6">
@@ -33,9 +35,10 @@
                 {% for product in products %}
                 <div class="border rounded p-4">
                     {% if product['image'] %}
-                    <img src="{{ url_for('static', filename='uploads/' + product['image']) }}"
-                        alt="{{ product['name'] }}"
-                        style="width: 300px; height: 200px; object-fit: cover; margin-top: 10px; border-radius: 8px;">
+                    <img src="{{ product['image'] }}" alt="{{ product['name'] }}"
+                        onerror="this.src='https://via.placeholder.com/150';"
+                        class="w-full h-48 object-cover rounded-lg mb-4">
+
                     {% endif %}
 
                     <h3 class="font-bold text-lg mt-2">{{ product['name'] }}</h3>

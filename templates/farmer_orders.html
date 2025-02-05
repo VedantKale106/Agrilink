@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>शेतकरी ऑर्डर्स - AgriLink</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+    <nav class="bg-green-600 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/farmer/dashboard" class="text-white text-xl font-bold">AgriLink</a>
+            <a href="/logout" class="bg-white text-green-600 px-4 py-2 rounded">बाहेर पडणे</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto mt-8 px-4">
+        <h1 class="text-2xl font-bold mb-6">माझ्या ऑर्डर्स</h1>
+
+        {% if orders %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for order in orders %}
+            <div class="border rounded-lg p-4 shadow-lg">
+                <img src="{{ order['image'] }}" class="w-full h-40 object-cover rounded">
+                <h2 class="font-bold text-xl mt-2">{{ order['product_name'] }}</h2>
+                <p>ग्राहक: {{ order['customer']['first_name'] }} {{ order['customer']['last_name'] }}</p>
+                <p>फोन: {{ order['customer']['phone'] }}</p>
+                <p>पत्ता: {{ order['customer']['address'] }}</p>
+                <p>प्रमाण: {{ order['quantity'] }} {{ order['unit'] }}</p>
+                <p>किंमत: {{ order['price'] }}</p>
+                <p class="font-semibold text-red-600">स्थिती: {{ order['status'] }}</p>
+
+                {% if order['status'] == 'Pending' %}
+                <form action="{{ url_for('deliver_order', order_id=order['_id']) }}" method="POST">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg w-full mt-3">डिलिव्हर्ड</button>
+                </form>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>कोणत्याही ऑर्डर आढळल्या नाहीत.</p>
+        {% endif %}
+    </main>
+</body>
+</html>
