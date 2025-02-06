@@ -193,7 +193,8 @@ def add_product():
             category = request.form['category']
             price = request.form['price']
             price_unit = request.form['price_unit']
-            image_url = request.form['image_url']  # Taking URL instead of file
+            quantity = int(request.form['quantity'])  # Get quantity input
+            image_url = request.form['image_url']  
 
             if not image_url.startswith(("http://", "https://")):
                 flash("Invalid image URL. Please provide a valid URL.", "error")
@@ -203,7 +204,8 @@ def add_product():
                 'name': name,
                 'category': category,
                 'price': f"{price} {price_unit}",
-                'image': image_url,  # Storing URL
+                'quantity': quantity,  # Store quantity
+                'image': image_url,
                 'farmer_id': ObjectId(session['user_id']),
                 'farmer_name': farmer_name,
                 'farmer_location': farmer_location
@@ -216,6 +218,16 @@ def add_product():
 
     return redirect(url_for('farmer_login'))
 
+# Route to delete a product
+@app.route('/delete_product/<product_id>', methods=['POST'])
+def delete_product(product_id):
+    if 'user_id' not in session or session['user_type'] != 'farmer':
+        return redirect(url_for('farmer_login'))
+
+    products_collection.delete_one({'_id': ObjectId(product_id), 'farmer_id': ObjectId(session['user_id'])})
+    flash("Product deleted successfully!", "success")
+    return redirect(url_for('farmer_dashboard'))
+
 @app.route('/cart/add/<product_id>', methods=['POST'])
 def add_to_cart(product_id):
     if 'user_id' not in session or session['user_type'] != 'customer':
@@ -226,7 +238,11 @@ def add_to_cart(product_id):
         flash("Product not found!", "error")
         return redirect(url_for('customer_dashboard'))
 
-    quantity = int(request.form.get('quantity', 1))  # Get quantity input from user
+    requested_quantity = int(request.form.get('quantity', 1))
+
+    if requested_quantity > product['quantity']:
+        flash(f"Only {product['quantity']} units available!", "error")
+        return redirect(url_for('customer_dashboard'))
 
     cart_item = {
         'customer_id': ObjectId(session['user_id']),
@@ -234,14 +250,22 @@ def add_to_cart(product_id):
         'farmer_id': product['farmer_id'],
         'product_name': product['name'],
         'category': product['category'],
-        'quantity': quantity,
+        'quantity': requested_quantity,
         'price': product['price'],
         'unit': product['price'].split()[-1],  # Extract unit (kg, dozen, litre, etc.)
         'image': product['image'],
-        'status': 'Pending'  # Initial status
+        'status': 'Pending'
     }
 
-    orders_collection.insert_one(cart_item)  # Store cart items as orders
+    orders_collection.insert_one(cart_item)
+
+    # Update product quantity
+    new_quantity = product['quantity'] - requested_quantity
+    if new_quantity > 0:
+        products_collection.update_one({'_id': ObjectId(product_id)}, {'$set': {'quantity': new_quantity}})
+    else:
+        products_collection.delete_one({'_id': ObjectId(product_id)})  # Remove when stock is 0
+
     flash("Added to cart!", "success")
     return redirect(url_for('customer_orders'))
 

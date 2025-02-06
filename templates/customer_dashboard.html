@@ -103,6 +103,12 @@
         margin-top: 0.25rem;
         /* Spacing between text elements */
     }
+
+    .warning {
+        color: red;
+        font-size: 0.9rem;
+        display: none;
+    }
 </style>
 
 <body class="bg-gray-100">
@@ -170,13 +176,18 @@
                     <p class="text-gray-700 mt-1">स्थान: <span class="font-semibold">{{ product['farmer_location']
                             }}</span></p>
                     <p class="text-green-600 font-bold mt-3 text-lg">रु {{ product['price'] }}</p>
+                    <p class="text-gray-700 mt-1">Available: <span class="font-semibold">{{ product['quantity'] }}</span></p>
+
                     <form action="{{ url_for('add_to_cart', product_id=product['_id']) }}" method="POST">
-                        <input type="number" name="quantity" min="1" value="1" class="w-16 p-2 border rounded" required>
+                        <input type="number" name="quantity" id="quantity_{{ product['_id'] }}" min="1" value="1" 
+                               max="{{ product['quantity'] }}" class="w-16 p-2 border rounded" required 
+                               onchange="checkQuantity({{ product['_id'] }}, {{ product['quantity'] }})">
                         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
                             गाडीमध्ये जोडा
                         </button>
+                        <p id="warning_{{ product['_id'] }}" class="warning">⚠️ Selected quantity exceeds available stock!</p>
                     </form>
-                    
+
                 </div>
                 {% endfor %}
             </div>
@@ -188,6 +199,23 @@
 
 
     </main>
+
+    <script>
+        // Function to check if the selected quantity exceeds the available quantity
+        function checkQuantity(productId, availableQuantity) {
+            var quantityInput = document.getElementById('quantity_' + productId);
+            var warningMsg = document.getElementById('warning_' + productId);
+            var selectedQuantity = parseInt(quantityInput.value);
+
+            if (selectedQuantity > availableQuantity) {
+                warningMsg.style.display = 'block'; // Show warning message
+                quantityInput.value = availableQuantity; // Set the input value to the max available quantity
+            } else {
+                warningMsg.style.display = 'none'; // Hide warning message
+            }
+        }
+    </script>
+
 </body>
 
 </html>
