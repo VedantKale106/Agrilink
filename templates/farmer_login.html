@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,122 +12,213 @@
             padding: 0;
             background-color: #f0fdf4;
         }
+
+        /* Styles for smaller screens (mobile-first) */
         nav {
             background-color: #15803d;
             padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .nav-container {
-            max-width: 1200px;
+            max-width: 90%;
             margin: 0 auto;
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
         }
+
         .logo {
             color: white;
             font-size: 1.8rem;
             font-weight: bold;
             text-decoration: none;
+            margin-bottom: 0.5rem;
         }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
         .nav-links a {
             color: white;
             text-decoration: none;
-            margin-left: 1.5rem;
+            margin: 0.5rem 1rem;
             transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border: 2px solid transparent;
+            border-radius: 5px;
         }
+
         .nav-links a:hover {
             color: #bbf7d0;
+            border-color: #bbf7d0;
         }
+
+        .nav-links a.active {
+            border-color: white;
+        }
+
         .login-container {
-            max-width: 400px;
-            margin: 3rem auto;
-            padding: 2rem;
+            max-width: 90%;
+            margin: 2rem auto;
+            padding: 1.5rem;
             background: white;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         .login-header {
             text-align: center;
-            margin-bottom: 2rem;
-        }
-        .login-header img {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 1rem;
-        }
-        .login-header h1 {
-            color: #15803d;
-            margin-bottom: 0.5rem;
-        }
-        .form-group {
             margin-bottom: 1.5rem;
         }
+
+        .login-header img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 0.8rem;
+        }
+
+        .login-header h1 {
+            color: #15803d;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             color: #333;
             font-weight: 500;
         }
+
         .form-group input {
             width: 100%;
-            padding: 0.8rem;
+            padding: 0.6rem;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 1rem;
+            box-sizing: border-box;
         }
-        .form-group input:focus {
-            outline: none;
-            border-color: #15803d;
-        }
+
         .remember-me {
             display: flex;
             align-items: center;
             margin-bottom: 1rem;
         }
+
         .remember-me input {
             margin-right: 0.5rem;
         }
+
         .forgot-password {
             text-align: right;
             margin-bottom: 1.5rem;
         }
+
         .forgot-password a {
             color: #15803d;
             text-decoration: none;
         }
+
         .login-btn {
             width: 100%;
-            padding: 1rem;
+            padding: 0.8rem;
             background-color: #15803d;
             color: white;
             border: none;
             border-radius: 5px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: background-color 0.3s;
+            box-sizing: border-box;
         }
+
         .login-btn:hover {
             background-color: #166534;
         }
+
         .signup-link {
             text-align: center;
             margin-top: 1.5rem;
         }
+
         .signup-link a {
             color: #15803d;
             text-decoration: none;
             font-weight: 500;
         }
+
         footer {
             background-color: #14532d;
             color: white;
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             text-align: center;
-            margin-top: 3rem;
+            margin-top: 2rem;
+        }
+
+        /* Media query for larger screens (laptops/desktops) */
+        @media (min-width: 768px) {
+            .nav-container {
+                max-width: 1200px;
+                flex-wrap: nowrap;
+            }
+
+            .logo {
+                margin-bottom: 0;
+            }
+
+            .nav-links {
+                justify-content: flex-end;
+            }
+
+            .nav-links a {
+                margin: 0 1.5rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .login-container {
+                max-width: 400px;
+                margin: 3rem auto;
+                padding: 2rem;
+            }
+
+            .login-header h1 {
+                font-size: 2rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            .form-group label {
+                margin-bottom: 0.5rem;
+            }
+
+            .form-group input {
+                padding: 0.8rem;
+            }
+
+            .login-btn {
+                padding: 1rem;
+                font-size: 1.1rem;
+            }
+
+            footer {
+                padding: 2rem 0;
+                margin-top: 3rem;
+            }
         }
     </style>
 </head>
+
 <body>
     <nav>
         <div class="nav-container">
@@ -137,46 +229,46 @@
             </div>
         </div>
     </nav>
-    
+
     <div class="login-container">
         <div class="login-header">
             <img src="{{ url_for('static', filename='farmer.png') }}" alt="Farmer Icon">
             <h1>शेतकऱ्यांची लॉगिन</h1>
             <p>Agrilink मध्ये आपले स्वागत आहे</p>
         </div>
-        
-        <form method="POST" action="/farmer/login" style="padding-right: 20px;">
+
+        <form method="POST" action="/farmer/login">
             <div class="form-group">
                 <label for="email">ई-मेल पत्ता</label>
                 <input type="email" id="email" name="email" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="password">पासवर्ड</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            
+
             <div class="remember-me">
                 <input type="checkbox" id="remember">
                 <label for="remember">माझ्या खात्याची आठवण ठेवा</label>
             </div>
-            
+
             <div class="forgot-password">
                 <a href="/farmer/forgot-password">पासवर्ड विसरलात?</a>
             </div>
-            
-            <button type="submit" class="login-btn" style="padding-left: 20px;">लॉगिन करा</button>
+
+            <button type="submit" class="login-btn">लॉगिन करा</button>
         </form>
-        
+
         {% if error %}
         <p style="color:red; text-align:center;">{{ error }}</p>
         {% endif %}
-        
+
         <div class="signup-link">
             <p>आधीच खाता नाही का? <a href="/farmer/signup">शेतकरी म्हणून साइन अप करा</a></p>
         </div>
     </div>
-    
+
     <footer>
         <p>&copy; 2024 Agrilink. देशभरातील शेतकऱ्यांना सक्षम बनवणे.</p>
     </footer>

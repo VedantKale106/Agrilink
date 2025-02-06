@@ -250,16 +250,7 @@
                 <button type="submit" class="login-btn">लॉग इन करा</button>
             </form>
             
-            <!-- Displaying Flash messages -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <ul>
-                        {% for category, message in messages %}
-                            <li class="flash-{{ category }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
+        
             
             <div class="social-login">
                 <p>किंवा यांच्यासह लॉगिन करा</p>

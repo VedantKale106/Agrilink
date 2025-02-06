@@ -281,15 +281,28 @@ def customer_orders():
 
 @app.route('/farmer/orders')
 def farmer_orders():
-    if 'user_id' not in session or session['user_type'] != 'farmer':
+    if 'user_id' not in session or session['user_type']!= 'farmer':
         return redirect(url_for('farmer_login'))
 
-    orders = list(orders_collection.find({'farmer_id': ObjectId(session['user_id'])}))
+    orders = list(orders_collection.find(
+        {'farmer_id': ObjectId(session['user_id'])},
+        sort=[('_id', -1)]  # Sort by _id in descending order (latest first)
+    ))
 
-    # Fetch customer details for each order
+    # Efficiently fetch customer details using a lookup (more performant)
+    customer_ids = [order['customer_id'] for order in orders]
+    customers = {
+        str(customer['_id']): customer  # Create a dictionary for quick lookup
+        for customer in customers_collection.find({'_id': {'$in': customer_ids}})
+    }
+
     for order in orders:
-        customer = customers_collection.find_one({'_id': ObjectId(order['customer_id'])})
-        order['customer'] = customer  # Add customer details to the order
+        customer_id_str = str(order['customer_id']) # Convert ObjectId to String for lookup
+        order['customer'] = customers.get(customer_id_str) # Use.get() to handle missing customers
+
+        # Handle the case where a customer might not be found (important!)
+        if order['customer'] is None:
+            order['customer'] = {'name': 'Customer Not Found'}  # Or some other default
 
     return render_template('farmer_orders.html', orders=orders)
 

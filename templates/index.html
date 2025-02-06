@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,38 +12,60 @@
             padding: 0;
             background-color: #f0fdf4;
         }
+
         nav {
             background-color: #15803d;
             padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .nav-container {
-            max-width: 1200px;
+            max-width: 90%;
             margin: 0 auto;
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
         }
+
         .logo {
             color: white;
             font-size: 1.8rem;
             font-weight: bold;
             text-decoration: none;
+            margin-bottom: 0.5rem;
         }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
         .nav-links a {
             color: white;
             text-decoration: none;
-            margin-left: 1.5rem;
+            margin: 0.5rem 1rem;
             transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border: 2px solid transparent;
+            border-radius: 5px;
         }
+
         .nav-links a:hover {
             color: #bbf7d0;
+            border-color: #bbf7d0;
         }
+
+        .nav-links a.active {
+            border-color: white;
+        }
+
         .hero {
-            background-image: url('/api/placeholder/1200/400');
+            background-image: url('static/indexcover.jpg');
             background-size: cover;
             background-position: center;
-            height: 400px;
+            height: 50vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -50,6 +73,7 @@
             text-align: center;
             position: relative;
         }
+
         .hero::before {
             content: '';
             position: absolute;
@@ -59,18 +83,24 @@
             bottom: 0;
             background: rgba(0, 0, 0, 0.5);
         }
+
         .hero-content {
             position: relative;
             z-index: 1;
+            max-width: 90%;
+            margin: 0 auto;
         }
+
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 1rem;
         }
+
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             margin-bottom: 2rem;
         }
+
         .btn {
             display: inline-block;
             padding: 0.8rem 1.5rem;
@@ -78,122 +108,66 @@
             text-decoration: none;
             font-weight: bold;
             transition: background-color 0.3s;
+            margin: 0.5rem;
         }
+
         .btn-primary {
             background-color: #15803d;
             color: white;
         }
+
         .btn-primary:hover {
             background-color: #166534;
         }
+
         .btn-secondary {
             background-color: #1d4ed8;
             color: white;
         }
+
         .btn-secondary:hover {
             background-color: #1e40af;
         }
+
         .features {
-            max-width: 1200px;
+            max-width: 90%;
             margin: 3rem auto;
             padding: 0 1rem;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
         }
+
         .feature-card {
             background: white;
             border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
         .feature-card img {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 1rem;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 0.8rem;
         }
+
         .feature-card h3 {
             color: #15803d;
             margin-bottom: 0.5rem;
+            font-size: 1.2rem;
         }
+
         footer {
             background-color: #14532d;
             color: white;
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             text-align: center;
         }
-        /* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Hero Section */
-.hero {
-    position: relative;
-    width: 100%;
-    height: 100vh; /* Make the hero section full height */
-    background-image: url('static/indexcover.jpg'); /* Replace with your image URL */
-    background-size: cover; /* Cover the entire area */
-    background-position: center; /* Center the image */
-    color: white; /* Text color */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.hero-content {
-    text-align: center;
-    max-width: 80%; /* Limit the width of the content */
-    z-index: 1;
-}
-
-.hero h1 {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for readability */
-}
-
-.hero p {
-    font-size: 1.5rem;
-    margin-bottom: 30px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Add text shadow for readability */
-}
-
-.hero .btn {
-    padding: 15px 30px;
-    margin: 10px;
-    font-size: 1.2rem;
-    text-decoration: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.hero .btn-primary {
-    background-color: #28a745; /* Green */
-    color: white;
-}
-
-.hero .btn-primary:hover {
-    background-color: #218838; /* Darker green on hover */
-}
-
-.hero .btn-secondary {
-    background-color: #007bff; /* Blue */
-    color: white;
-}
-
-.hero .btn-secondary:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-
     </style>
-    
+
 </head>
+
 <body>
     <nav>
         <div class="nav-container">
@@ -205,7 +179,7 @@
             </div>
         </div>
     </nav>
-    
+
     <div class="hero">
         <div class="hero-content">
             <h1>Agrilink मध्ये आपले स्वागत आहे</h1>
@@ -216,27 +190,31 @@
             </div>
         </div>
     </div>
-    
+
     <div class="features">
         <div class="feature-card">
-            <img src="https://th.bing.com/th?id=OIP._uqco3fpa83GfB0t22ckWgHaD4&w=345&h=181&c=8&rs=1&qlt=90&r=0&o=6&pid=3.1&rm=2" alt="Direct Sales">
+            <img src="https://th.bing.com/th?id=OIP._uqco3fpa83GfB0t22ckWgHaD4&w=345&h=181&c=8&rs=1&qlt=90&r=0&o=6&pid=3.1&rm=2"
+                alt="Direct Sales">
             <h3>थेट विक्री</h3>
             <p>आपले उत्पादन थेट ग्राहकांना विका आणि चांगल्या किंमती मिळवा</p>
         </div>
         <div class="feature-card">
-            <img src="https://th.bing.com/th/id/OIP.n6aXGUuVavlYfC4iyEy3ZgHaE8?w=204&h=180&c=7&r=0&o=5&pid=1.7" alt="Farm Management">
+            <img src="https://th.bing.com/th/id/OIP.n6aXGUuVavlYfC4iyEy3ZgHaE8?w=204&h=180&c=7&r=0&o=5&pid=1.7"
+                alt="Farm Management">
             <h3>सोपे व्यवस्थापन</h3>
             <p>आपल्या यादीचे व्यवस्थापन करण्यासाठी साधी साधने आणि विक्री ट्रॅक करा</p>
         </div>
         <div class="feature-card">
-            <img src="https://th.bing.com/th/id/OIP.xiUz_Jbw5AmGwgxTb6eeBgHaDO?w=294&h=152&c=7&r=0&o=5&pid=1.7" alt="Growth">
+            <img src="https://th.bing.com/th/id/OIP.xiUz_Jbw5AmGwgxTb6eeBgHaDO?w=294&h=152&c=7&r=0&o=5&pid=1.7"
+                alt="Growth">
             <h3>आपले शेत वाढवा</h3>
             <p>आपल्या ग्राहकांचा आधार वाढवा आणि आपल्या शेती व्यवसायाची वाढ करा</p>
         </div>
     </div>
-    
+
     <footer>
         <p>&copy; 2024 Agrilink. देशभरातील शेतकऱ्यांना सामर्थ्य देत आहे.</p>
     </footer>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,105 +12,192 @@
             padding: 0;
             background-color: #f0fdf4;
         }
+
+        /* Mobile-first styles */
         nav {
             background-color: #15803d;
             padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .nav-container {
-            max-width: 1200px;
+            max-width: 90%;
             margin: 0 auto;
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
         }
+
         .logo {
             color: white;
             font-size: 1.8rem;
             font-weight: bold;
             text-decoration: none;
+            margin-bottom: 0.5rem; /* Space below on smaller screens */
         }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
         .nav-links a {
             color: white;
             text-decoration: none;
-            margin-left: 1.5rem;
+            margin: 0.5rem 1rem; /* Adjusted margins */
             transition: color 0.3s;
+            padding: 0.5rem 1rem; /* Add padding */
+            border: 2px solid transparent; /* Set initial border */
+            border-radius: 5px; /* Add rounded corners */
         }
+
         .nav-links a:hover {
             color: #bbf7d0;
+            border-color: #bbf7d0; /* Highlight border on hover */
         }
+
+        .nav-links a.active { /* Style for the active/current link */
+            border-color: white; /* Or a different color */
+        }
+
         .signup-container {
-            max-width: 500px;
+            max-width: 90%;
             margin: 2rem auto;
-            padding: 2rem;
+            padding: 1.5rem;
             background: white;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         .form-header {
             text-align: center;
-            margin-bottom: 2rem;
-        }
-        .form-header img {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 1rem;
-        }
-        .form-header h1 {
-            color: #15803d;
-            margin-bottom: 0.5rem;
-        }
-        .form-group {
             margin-bottom: 1.5rem;
         }
+
+        .form-header img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 0.8rem;
+        }
+
+        .form-header h1 {
+            color: #15803d;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             color: #333;
             font-weight: 500;
         }
+
         .form-group input {
             width: 100%;
-            padding: 0.8rem;
+            padding: 0.6rem;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 1rem;
+            box-sizing: border-box; /* Include padding and border in width */
         }
-        .form-group input:focus {
-            outline: none;
-            border-color: #15803d;
-        }
+
         .submit-btn {
             width: 100%;
-            padding: 1rem;
+            padding: 0.8rem;
             background-color: #15803d;
             color: white;
             border: none;
             border-radius: 5px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: background-color 0.3s;
+            box-sizing: border-box; /* Include padding and border in width */
         }
+
         .submit-btn:hover {
             background-color: #166534;
         }
+
         .login-link {
             text-align: center;
             margin-top: 1rem;
         }
+
         .login-link a {
             color: #15803d;
             text-decoration: none;
         }
+
         footer {
             background-color: #14532d;
             color: white;
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             text-align: center;
-            margin-top: 3rem;
+            margin-top: 2rem;
+        }
+
+        /* Media query for larger screens (tablets and desktops) */
+        @media (min-width: 768px) {
+            .nav-container {
+                max-width: 1200px;
+                flex-wrap: nowrap;
+            }
+
+            .logo {
+                margin-bottom: 0;
+            }
+
+            .nav-links {
+                justify-content: flex-end;
+            }
+
+            .nav-links a {
+                margin: 0 1.5rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .signup-container {
+                max-width: 500px; /* Or adjust as needed */
+                margin: 3rem auto;
+                padding: 2rem;
+            }
+
+            .form-header h1 {
+                font-size: 2rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            .form-group label {
+                margin-bottom: 0.5rem;
+            }
+
+            .form-group input {
+                padding: 0.8rem;
+            }
+
+            .submit-btn {
+                padding: 1rem;
+                font-size: 1.1rem;
+            }
+
+            footer {
+                padding: 2rem 0;
+                margin-top: 3rem;
+            }
         }
     </style>
 </head>
+
 <body>
     <nav>
         <div class="nav-container">
@@ -120,57 +208,57 @@
             </div>
         </div>
     </nav>
-    
+
     <div class="signup-container">
         <div class="form-header">
             <img src="{{ url_for('static', filename='farmer.png') }}" alt="Farmer Icon">
             <h1>शेतकऱ्यांची साइनअप</h1>
             <p>यशस्वी शेतकऱ्यांच्या आमच्या समुदायात सामील व्हा</p>
         </div>
-        
-        <form method="POST" action="/farmer/signup" style="padding-right: 20px;">
+
+        <form method="POST" action="/farmer/signup">
             <div class="form-group">
                 <label for="farm-name">शेताचे नाव</label>
                 <input type="text" id="farm-name" name="farm_name" required>
             </div>
-        
+
             <div class="form-group">
                 <label for="farmer-name">शेतकऱ्याचे नाव</label>
                 <input type="text" id="farmer-name" name="farmer_name" required>
             </div>
-        
+
             <div class="form-group">
                 <label for="email">ई-मेल पत्ता</label>
                 <input type="email" id="email" name="email" required>
             </div>
-        
+
             <div class="form-group">
                 <label for="phone">फोन नंबर</label>
                 <input type="tel" id="phone" name="phone" required>
             </div>
-        
+
             <div class="form-group">
                 <label for="location">शेताची लोकेशन</label>
                 <input type="text" id="location" name="location" required>
             </div>
-        
+
             <div class="form-group">
                 <label for="password">पासवर्ड</label>
                 <input type="password" id="password" name="password" required>
             </div>
-        
+
             <button type="submit" class="submit-btn">शेतकरी खाता तयार करा</button>
         </form>
-        
+
         <div class="login-link">
             <p>आधीच खाता आहे का? <a href="/farmer/login">लॉगिन करा</a></p>
         </div>
-        
+
     </div>
-    
+
     <footer>
         <p>&copy; 2024 Agrilink. देशभरातील शेतकऱ्यांना सक्षम बनवणे.</p>
     </footer>
 </body>
 
-</html> 
+</html>

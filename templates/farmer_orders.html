@@ -29,7 +29,9 @@
                 <p>पत्ता: {{ order['customer']['address'] }}</p>
                 <p>प्रमाण: {{ order['quantity'] }} {{ order['unit'] }}</p>
                 <p>किंमत: {{ order['price'] }}</p>
-                <p class="font-semibold text-red-600">स्थिती: {{ order['status'] }}</p>
+                <p class="font-semibold {% if order['status'] == 'Delivered' %}text-green-600{% else %}text-red-600{% endif %}">
+                    स्थिती: {{ order['status'] }}
+                </p>
 
                 {% if order['status'] == 'Pending' %}
                 <form action="{{ url_for('deliver_order', order_id=order['_id']) }}" method="POST">
@@ -43,5 +45,11 @@
         <p>कोणत्याही ऑर्डर आढळल्या नाहीत.</p>
         {% endif %}
     </main>
+    <a href="javascript:history.back()" style="position: fixed; bottom: 20px; right: 20px; background-color: #007bff; color: white; border-radius: 50%; padding: 15px; text-align: center; text-decoration: none; font-size: 16px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); z-index: 1000; transition: background-color 0.3s ease;"
+   onmouseover="this.style.backgroundColor='#0056b3';" 
+   onmouseout="this.style.backgroundColor='#007bff';">
+    <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Back
+</a>
+<script src="https://kit.fontawesome.com/your-font-awesome-kit-id.js" crossorigin="anonymous"></script>
 </body>
 </html>
