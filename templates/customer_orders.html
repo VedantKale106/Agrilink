@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,9 +28,26 @@
                 <p>श्रेणी: {{ order['category'] }}</p>
                 <p>प्रमाण: {{ order['quantity'] }} {{ order['unit'] }}</p>
                 <p>किंमत: {{ order['price'] }}</p>
-                <p class="font-semibold {% if order['status'] == 'Delivered' %} text-green-600 {% else %} text-red-600 {% endif %}">
+                <p>ऑर्डर दिनांक: {{ order['added_at'] }}</p>
+
+                <p
+                    class="font-semibold {% if order['status'] == 'Delivered' %} text-green-600 {% else %} text-red-600 {% endif %}">
                     स्थिती: {{ order['status'] }}
                 </p>
+
+                <!-- Contact farmer buttons -->
+                {% if order['farmer_phone'] %}
+                <div class="mt-4">
+                    <a href="tel:{{ order['farmer_phone'] }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg mr-2">
+                        कॉल करा
+                    </a>
+                    <a href="https://wa.me/{{ order['farmer_phone'] }}?text=नमस्कार, मी {{ order['product_name'] }} Order केले आहे, जो {{ order['added_at'] }} रोजी ऑर्डर केला. प्रमाण: {{ order['quantity'] }} {{ order['unit'] }} आणि किंमत: {{ order['price'] }} आहे. कृपया डिलिव्हरी स्थिती काय आहे?"
+                        target="_blank" class="bg-green-600 text-white px-4 py-2 rounded-lg">
+                        व्हॉट्सअॅपवर संपर्क करा
+                    </a>
+
+                </div>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
@@ -38,4 +56,5 @@
         {% endif %}
     </main>
 </body>
+
 </html>

@@ -3,3 +3,4 @@ pymongo
 werkzeug
 gunicorn
 python-dotenv
+bson

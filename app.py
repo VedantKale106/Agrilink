@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
 import os
 from dotenv import load_dotenv
+from datetime import datetime  
 
 # For the Repo
 app = Flask(__name__)
@@ -228,6 +229,7 @@ def delete_product(product_id):
     flash("Product deleted successfully!", "success")
     return redirect(url_for('farmer_dashboard'))
 
+
 @app.route('/cart/add/<product_id>', methods=['POST'])
 def add_to_cart(product_id):
     if 'user_id' not in session or session['user_type'] != 'customer':
@@ -254,7 +256,8 @@ def add_to_cart(product_id):
         'price': product['price'],
         'unit': product['price'].split()[-1],  # Extract unit (kg, dozen, litre, etc.)
         'image': product['image'],
-        'status': 'Pending'
+        'status': 'Pending',
+        'added_at': datetime.now()  # Store the timestamp of when the product was added
     }
 
     orders_collection.insert_one(cart_item)
@@ -270,41 +273,62 @@ def add_to_cart(product_id):
     return redirect(url_for('customer_orders'))
 
 
+
 @app.route('/customer/orders')
 def customer_orders():
     if 'user_id' not in session or session['user_type'] != 'customer':
         return redirect(url_for('customer_login'))
 
+    # Fetch the orders from the database
     orders = list(orders_collection.find({'customer_id': ObjectId(session['user_id'])}))
+
+    # For each order, get the farmer's details using the farmer_id
+    for order in orders:
+        if 'farmer_id' in order:
+            farmer = farmers_collection.find_one({'_id': ObjectId(order['farmer_id'])})
+            if farmer and 'phone' in farmer:
+                order['farmer_phone'] = farmer['phone']
+
+        # Format 'added_at' to show only the date (YYYY-MM-DD) without time
+        if 'added_at' in order and isinstance(order['added_at'], datetime):
+            order['added_at'] = order['added_at'].strftime('%Y-%m-%d')  # Format to 'YYYY-MM-DD'
+
     return render_template('customer_orders.html', orders=orders)
+
+
 
 
 @app.route('/farmer/orders')
 def farmer_orders():
-    if 'user_id' not in session or session['user_type']!= 'farmer':
+    if 'user_id' not in session or session['user_type'] != 'farmer':
         return redirect(url_for('farmer_login'))
 
+    # Fetch orders for the farmer
     orders = list(orders_collection.find(
         {'farmer_id': ObjectId(session['user_id'])},
-        sort=[('_id', -1)]  # Sort by _id in descending order (latest first)
+        sort=[('status', 1), ('delivered_at', -1)]  # First by status (Pending first), then by delivered_at (latest first)
     ))
 
-    # Efficiently fetch customer details using a lookup (more performant)
+    # Efficiently fetch customer details using a lookup
     customer_ids = [order['customer_id'] for order in orders]
     customers = {
-        str(customer['_id']): customer  # Create a dictionary for quick lookup
+        str(customer['_id']): customer
         for customer in customers_collection.find({'_id': {'$in': customer_ids}})
     }
 
+    # Loop through orders and populate customer information
     for order in orders:
-        customer_id_str = str(order['customer_id']) # Convert ObjectId to String for lookup
-        order['customer'] = customers.get(customer_id_str) # Use.get() to handle missing customers
+        customer_id_str = str(order['customer_id'])
+        order['customer'] = customers.get(customer_id_str, {'name': 'Customer Not Found'})
+        order['customer_phone'] = order['customer'].get('phone', 'Phone not available')  # Fetch customer phone
 
-        # Handle the case where a customer might not be found (important!)
-        if order['customer'] is None:
-            order['customer'] = {'name': 'Customer Not Found'}  # Or some other default
+        # Handle date formatting
+        if order.get('delivered_at') and isinstance(order['delivered_at'], datetime):
+            order['delivered_at'] = order['delivered_at'].strftime('%Y-%m-%d')  # Format delivery date
 
     return render_template('farmer_orders.html', orders=orders)
+
+
 
 
 
@@ -313,9 +337,14 @@ def deliver_order(order_id):
     if 'user_id' not in session or session['user_type'] != 'farmer':
         return redirect(url_for('farmer_login'))
 
-    orders_collection.update_one({'_id': ObjectId(order_id)}, {'$set': {'status': 'Delivered'}})
+    orders_collection.update_one(
+        {'_id': ObjectId(order_id)},
+        {'$set': {'status': 'Delivered', 'delivered_at': datetime.now()}}  
+    )
+
     flash("Order marked as Delivered!", "success")
     return redirect(url_for('farmer_orders'))
+
 
 
 
@@ -343,7 +372,6 @@ def customer_profile():
     return render_template('customer_profile.html', customer=customer)
 
 
-
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -352,6 +380,17 @@ def about():
 def logout():
     session.clear()
     return redirect(url_for('index'))
+
+
+
+
+
+
+
+
+
+
+# ----------------------------- Playground ---------------------------
 
 if __name__ == '__main__':
     app.run(debug=True)
