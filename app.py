@@ -17,6 +17,8 @@ farmers_collection = db['farmers']
 customers_collection = db['customers']
 products_collection = db['products']
 orders_collection = db['orders']
+biddings_collection = db['biddings']
+
 
 
 # Landing page to select Farmer or Customer
@@ -391,6 +393,132 @@ def logout():
 
 
 # ----------------------------- Playground ---------------------------
+
+@app.route('/farmer/add_bid', methods=['GET', 'POST'])
+def add_bid():
+    if 'user_id' not in session or session['user_type'] != 'farmer':
+        return redirect(url_for('farmer_login'))
+
+    farmer_id = session['user_id']
+    
+    if request.method == 'POST':
+        product_name = request.form['product_name']
+        base_price = float(request.form['base_price'])
+        quantity = int(request.form['quantity'])
+        image_url = request.form['image_url']
+
+        bid_data = {
+            'farmer_id': ObjectId(farmer_id),
+            'product_name': product_name,
+            'base_price': base_price,
+            'quantity': quantity,
+            'image_url': image_url,
+            'highest_bid': base_price,
+            'highest_bidder': None,
+            'status': 'open',
+            'bids': [],  # List to store bids
+            'created_at': datetime.now()
+        }
+
+        biddings_collection.insert_one(bid_data)
+        flash("Bid listed successfully!", "success")
+        return redirect(url_for('farmer_dashboard'))
+
+    return render_template('farmer_add_bid.html')
+
+@app.route('/customer/place_bid/<bid_id>', methods=['POST'])
+def place_bid(bid_id):
+    if 'user_id' not in session or session['user_type'] != 'customer':
+        return redirect(url_for('customer_login'))
+
+    customer_id = session['user_id']
+    bid_amount = float(request.form['bid_amount'])
+
+    bid = biddings_collection.find_one({'_id': ObjectId(bid_id)})
+
+    if not bid or bid['status'] != 'open':
+        flash("Bidding is closed or does not exist!", "error")
+        return redirect(url_for('customer_dashboard'))
+
+    if bid_amount <= bid['highest_bid']:
+        flash("Bid must be higher than the current highest bid!", "error")
+        return redirect(url_for('customer_dashboard'))
+
+    new_bid = {
+        'customer_id': ObjectId(customer_id),
+        'bid_amount': bid_amount,
+        'timestamp': datetime.now()
+    }
+
+    biddings_collection.update_one(
+        {'_id': ObjectId(bid_id)},
+        {'$set': {'highest_bid': bid_amount, 'highest_bidder': ObjectId(customer_id)},
+         '$push': {'bids': new_bid}}
+    )
+
+    flash("Bid placed successfully!", "success")
+    return redirect(url_for('customer_dashboard'))
+
+
+@app.route('/farmer/end_bid/<bid_id>', methods=['POST'])
+def end_bid(bid_id):
+    if 'user_id' not in session or session['user_type'] != 'farmer':
+        return redirect(url_for('farmer_login'))
+
+    bid = biddings_collection.find_one({'_id': ObjectId(bid_id)})
+
+    if not bid or bid['status'] != 'open':
+        flash("Bidding already closed or does not exist!", "error")
+        return redirect(url_for('farmer_dashboard'))
+
+    highest_bidder = bid.get('highest_bidder')
+    if not highest_bidder:
+        flash("No bids placed!", "error")
+        return redirect(url_for('farmer_dashboard'))
+
+    # Create an order for the highest bidder
+    order_data = {
+        'customer_id': highest_bidder,
+        'farmer_id': bid['farmer_id'],
+        'product_name': bid['product_name'],
+        'quantity': bid['quantity'],
+        'price': bid['highest_bid'],
+        'image': bid['image_url'],
+        'status': 'Pending',
+        'added_at': datetime.now()
+    }
+
+    orders_collection.insert_one(order_data)
+
+    # Update bidding status
+    biddings_collection.update_one({'_id': ObjectId(bid_id)}, {'$set': {'status': 'closed'}})
+
+    flash("Bidding closed and order placed for highest bidder!", "success")
+    return redirect(url_for('farmer_dashboard'))
+
+@app.route('/customer/biddings')
+def customer_biddings():
+    if 'user_id' not in session or session['user_type'] != 'customer':
+        return redirect(url_for('customer_login'))
+
+    biddings = list(biddings_collection.find({'status': 'open'}))
+
+    return render_template('customer_biddings.html', biddings=biddings)
+
+@app.route('/farmer/biddings')
+def farmer_biddings():
+    if 'user_id' not in session or session['user_type'] != 'farmer':
+        return redirect(url_for('farmer_login'))
+
+    farmer_id = session['user_id']
+    biddings = list(biddings_collection.find({'farmer_id': ObjectId(farmer_id)}))
+
+    return render_template('farmer_biddings.html', biddings=biddings)
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

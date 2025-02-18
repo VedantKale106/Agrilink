@@ -112,12 +112,17 @@
 </style>
 
 <body class="bg-gray-100">
-    <nav class="bg-green-600 p-4" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+    <nav class="bg-green-600 p-4"
+        style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
         <a href="/customer/dashboard" class="text-white text-xl font-bold" style="margin-bottom: 0.5rem;">AgriLink</a>
         <div style="display: flex; flex-wrap: wrap; justify-content: flex-end; margin-bottom: 0.5rem;">
-            <a href="/about" class="bg-white text-green-600 px-4 py-2 rounded ml-3" style="margin: 0.25rem;">आमच्याबद्दल</a>
-            <a href="/customer/orders" class="bg-white text-green-600 px-4 py-2 rounded" style="margin: 0.25rem;">माझ्या ऑर्डर</a>
-            <a href="/customer/profile" class="bg-white text-green-600 px-4 py-2 rounded" style="margin: 0.25rem;">माझी प्रोफाइल</a>
+            <a href="/about" class="bg-white text-green-600 px-4 py-2 rounded ml-3"
+                style="margin: 0.25rem;">आमच्याबद्दल</a>
+            <a href="/customer/orders" class="bg-white text-green-600 px-4 py-2 rounded" style="margin: 0.25rem;">माझ्या
+                ऑर्डर</a>
+            <a href="/customer/profile" class="bg-white text-green-600 px-4 py-2 rounded" style="margin: 0.25rem;">माझी
+                प्रोफाइल</a>
+            <a href="{{ url_for('customer_biddings') }}" class="bg-white text-green-600 px-4 py-2 rounded" style="margin: 0.25rem;">सक्रिय बोली पहा</a>
             <a href="/logout" class="bg-white text-green-600 px-4 py-2 rounded" style="margin: 0.25rem;">बाहेर पडणे</a>
         </div>
     </nav>
@@ -174,16 +179,18 @@
                     <p class="text-gray-700 mt-1">स्थान: <span class="font-semibold">{{ product['farmer_location']
                             }}</span></p>
                     <p class="text-green-600 font-bold mt-3 text-lg">रु {{ product['price'] }}</p>
-                    <p class="text-gray-700 mt-1">Available: <span class="font-semibold">{{ product['quantity'] }}</span></p>
+                    <p class="text-gray-700 mt-1">Available: <span class="font-semibold">{{ product['quantity']
+                            }}</span></p>
 
                     <form action="{{ url_for('add_to_cart', product_id=product['_id']) }}" method="POST">
-                        <input type="number" name="quantity" id="quantity_{{ product['_id'] }}" min="1" value="1" 
-                               max="{{ product['quantity'] }}" class="w-16 p-2 border rounded" required 
-                               onchange="checkQuantity({{ product['_id'] }}, {{ product['quantity'] }})">
+                        <input type="number" name="quantity" id="quantity_{{ product['_id'] }}" min="1" value="1"
+                            max="{{ product['quantity'] }}" class="w-16 p-2 border rounded" required
+                            onchange="checkQuantity({{ product['_id'] }}, {{ product['quantity'] }})">
                         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
                             गाडीमध्ये जोडा
                         </button>
-                        <p id="warning_{{ product['_id'] }}" class="warning">⚠️ Selected quantity exceeds available stock!</p>
+                        <p id="warning_{{ product['_id'] }}" class="warning">⚠️ Selected quantity exceeds available
+                            stock!</p>
                     </form>
 
                 </div>
