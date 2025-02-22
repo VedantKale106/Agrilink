@@ -21,13 +21,26 @@
         <div class="container mx-auto flex flex-wrap justify-between items-center">
             <a href="/farmer/dashboard" class="text-white text-xl font-bold">AgriLink</a>
             <div class="flex flex-wrap mt-2 md:mt-0">
-                <a href="/about" class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">आमच्याबद्दल</a>
-                <a href="/farmer/add_product" class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">उत्पादन जोडा</a>
-                <a href="/farmer/orders" class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">माझ्या ऑर्डर्स</a>
-                <a href="{{ url_for('add_bid') }}" class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">बोलीसाठी उत्पादन सूचीबद्ध करा</a>
-                <a href="{{ url_for('farmer_biddings') }}" class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">माझ्या बोली पहा</a>
-                <a href="/logout" class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 hover:bg-green-100 transition duration-300">बाहेर पडा</a>
-              </div>
+                <a href="/about"
+                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">आमच्याबद्दल</a>
+                <a href="/farmer/add_product"
+                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">उत्पादन
+                    जोडा</a>
+                <a href="/farmer/orders"
+                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">माझ्या
+                    ऑर्डर्स</a>
+                <a href="{{ url_for('add_bid') }}"
+                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">बोलीसाठी
+                    उत्पादन सूचीबद्ध करा</a>
+                <a href="{{ url_for('farmer_biddings') }}"
+                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">माझ्या
+                    बोली पहा</a>
+                    <a href="{{ url_for('add_bid_notification') }}"
+                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">बोली सूचना सेट करा</a>
+                <a href="/logout"
+                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 hover:bg-green-100 transition duration-300">बाहेर
+                    पडा</a>
+            </div>
         </div>
     </nav>
 

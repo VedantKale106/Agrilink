@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="mr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>आगामी बोली सूचना</title>
+    <script src="https://cdn.tailwindcss.com"></script> </head>
+
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto mt-8 p-6 bg-white rounded-lg shadow-md transition duration-300 ease-in-out hover:scale-105">
+        <h2 class="text-2xl font-bold text-center text-green-600 mb-6 animate-pulse">आगामी बोली सूचना</h2>
+
+        <div class="overflow-x-auto">
+            {% if bids %}
+            <table class="min-w-full table-auto border-collapse border border-gray-300">
+                <thead class="bg-green-500 text-white">
+                    <tr>
+                        <th class="px-4 py-2 text-left border border-gray-300">उत्पादन</th>
+                        <th class="px-4 py-2 text-left border border-gray-300">किंमत (₹)</th>
+                        <th class="px-4 py-2 text-left border border-gray-300">नग</th>
+                        <th class="px-4 py-2 text-left border border-gray-300">बोली सुरू होण्याची वेळ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bid in bids %}
+                    <tr class="hover:bg-gray-200 transition duration-200">
+                        <td class="px-4 py-2 border border-gray-300">{{ bid.product_name }}</td>
+                        <td class="px-4 py-2 border border-gray-300">{{ bid.base_price }}</td>
+                        <td class="px-4 py-2 border border-gray-300">{{ bid.quantity }}</td>
+                        <td class="px-4 py-2 border border-gray-300">{{ bid.formatted_datetime }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-center text-gray-600 mt-4">सध्या कोणतीही आगामी बोली नाही.</p>
+            {% endif %}
+        </div>
+
+        <div class="mt-6 text-center">
+            <a href="/customer/dashboard" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                डॅशबोर्डवर परत जा
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

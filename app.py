@@ -18,6 +18,7 @@ customers_collection = db['customers']
 products_collection = db['products']
 orders_collection = db['orders']
 biddings_collection = db['biddings']
+bid_notifications_collection = db['bid_notifications']
 
 
 
@@ -390,10 +391,6 @@ def logout():
 
 
 
-
-
-# ----------------------------- Playground ---------------------------
-
 @app.route('/farmer/add_bid', methods=['GET', 'POST'])
 def add_bid():
     if 'user_id' not in session or session['user_type'] != 'farmer':
@@ -517,6 +514,49 @@ def farmer_biddings():
 
 
 
+
+
+# -----------------------------------------------------------------------------------
+# Route for farmers to add bid notifications
+@app.route('/farmer/add_bid_notification', methods=['GET', 'POST'])
+def add_bid_notification():
+    if 'user_id' not in session or session['user_type'] != 'farmer':
+        return redirect(url_for('farmer_login'))
+
+    if request.method == 'POST':
+        product_name = request.form['product_name']
+        base_price = float(request.form['base_price'])
+        quantity = int(request.form['quantity'])
+        bid_date = request.form['bid_date']
+        bid_time = request.form['bid_time']
+
+        bid_data = {
+            'farmer_id': ObjectId(session['user_id']),
+            'product_name': product_name,
+            'base_price': base_price,
+            'quantity': quantity,
+            'bid_datetime': datetime.strptime(f"{bid_date} {bid_time}", "%Y-%m-%d %H:%M"),
+            'status': 'scheduled'
+        }
+
+        bid_notifications_collection.insert_one(bid_data)
+        flash("Bid notification added successfully!", "success")
+        return redirect(url_for('farmer_dashboard'))
+
+    return render_template('farmer_add_bid_notification.html')
+
+@app.route('/customer/bid_notifications')
+def customer_bid_notifications():
+    if 'user_id' not in session or session['user_type'] != 'customer':
+        return redirect(url_for('customer_login'))
+
+    bids = list(bid_notifications_collection.find({'status': 'scheduled'}))
+
+    # Convert datetime format before passing to template
+    for bid in bids:
+        bid['formatted_datetime'] = bid['bid_datetime'].strftime('%Y-%m-%d %H:%M')
+
+    return render_template('customer_bid_notifications.html', bids=bids)
 
 
 
