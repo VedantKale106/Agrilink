@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Dashboard - AgriLink</title>
+    <title>ग्राहक डॅशबोर्ड - AgriLink</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
 <style>
+    /* Global Styles */
+    :root {
+        --primary-color: #16a34a;
+        --secondary-color: #dcfce7;
+        --text-color: #4A5568;
+        --border-color: #D1D5DB;
+        --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --hover-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9fafb;
+        transition: background-color 0.3s ease;
+    }
+
     /* Form Group Styling */
     .form-group {
         margin-bottom: 1.5rem;
@@ -18,197 +36,467 @@
     .form-group label {
         font-size: 1rem;
         font-weight: 500;
-        color: #4A5568;
-        /* Gray color */
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+        display: block;
     }
 
     /* Dropdown Styling */
     select {
         width: 100%;
         padding: 0.75rem 1rem;
-        border: 1px solid #D1D5DB;
-        /* Gray border */
-        border-radius: 0.375rem;
-        /* Rounded corners */
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
         background-color: #FFFFFF;
-        /* White background */
-        color: #4A5568;
-        /* Dark gray text */
-        transition: border-color 0.2s ease-in-out;
+        color: var(--text-color);
+        transition: all 0.3s ease;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234A5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1em;
     }
 
     /* Dropdown Focus Styling */
     select:focus {
-        border-color: #3182CE;
-        /* Blue border on focus */
+        border-color: var(--primary-color);
         outline: none;
-        box-shadow: 0 0 0 1px #B2E0F0;
-        /* Light blue shadow */
-    }
-
-    /* Icon Styling */
-    .pointer-events-none {
-        pointer-events: none;
-        /* Prevent clicking on the icon */
+        box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
     }
 
     /* Card Container */
-    .grid {
-        margin-top: 20px;
-        /* Adds spacing above the grid */
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
     }
 
     /* Card Styling */
-    .border {
-        border: 1px solid #e2e8f0;
-        /* Light gray border */
+    .product-card {
+        border-radius: 1rem;
+        overflow: hidden;
+        background: white;
+        box-shadow: var(--card-shadow);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--hover-shadow);
     }
 
     /* Image Styling */
-    img {
-        border-radius: 0.5rem;
-        /* Rounded corners for images */
+    .product-image {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .product-card:hover .product-image {
+        transform: scale(1.05);
     }
 
     /* Button Styling */
-    button {
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    /* Hover Effect on Button */
-    button:hover {
-        transform: translateY(-2px);
-        /* Button lift effect on hover */
-    }
-
-    /* Card Hover Effect */
-    .transition-transform {
-        transition: transform 0.3s ease;
-        /* Smooth transition for card hover */
-    }
-
-    .hover\:scale-105:hover {
-        transform: scale(1.05);
-        /* Slight scale up on hover */
-    }
-
-    /* Font Styling */
-    .font-semibold {
+    .cart-button {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
         font-weight: 600;
-        /* Bold text for important fields */
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
     }
 
-    /* Additional Spacing */
-    .mt-1 {
-        margin-top: 0.25rem;
-        /* Spacing between text elements */
+    .cart-button:hover {
+        background-color: #15803d;
+        transform: translateY(-2px);
     }
 
+    /* Quantity Input */
+    .quantity-input {
+        width: 4rem;
+        padding: 0.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.25rem;
+        text-align: center;
+    }
+
+    /* Warning Message */
     .warning {
-        color: red;
-        font-size: 0.9rem;
+        color: #e53e3e;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
         display: none;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    /* Nav Styling */
+    .nav-container {
+        background-color: var(--primary-color);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Menu Items */
+    .menu-item {
+        background-color: white;
+        color: var(--primary-color);
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        margin: 0.25rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        font-weight: 500;
+    }
+
+    .menu-item:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background-color: white;
+        padding: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Product Details */
+    .product-details {
+        padding: 1.25rem;
+    }
+
+    .product-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-info {
+        font-size: 0.9rem;
+        color: var(--text-color);
+        margin-bottom: 0.25rem;
+    }
+
+    .product-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin: 0.75rem 0;
+    }
+
+    .cart-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .category-badge {
+        display: inline-block;
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+    }
+
+    /* Loading Animation */
+    .loader {
+        display: none;
+        border: 3px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 3px solid var(--primary-color);
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .page-header {
+        position: relative;
+        padding-bottom: 0.5rem;
+        margin-bottom: 2rem;
+        display: inline-block;
+    }
+
+    .page-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: var(--primary-color);
+        border-radius: 3px;
+    }
+
+    .farmer-location {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .menu-wrapper {
+            flex-direction: column;
+            padding: 0.5rem 0;
+        }
+        
+        .desktop-menu {
+            display: none;
+        }
+        
+        .menu-btn {
+            display: block !important;
+        }
+        
+        .product-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+        
+        .cart-actions {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .cart-actions .cart-button {
+            width: 100%;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .menu-btn {
+            display: none !important;
+        }
+        
+        .desktop-menu {
+            display: flex !important;
+        }
     }
 </style>
 
-<body class="bg-gray-100">
-    <nav class="bg-green-600 p-4"
-        style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
-        <a href="/customer/dashboard" class="text-white text-xl font-bold" style="margin-bottom: 0.5rem;">AgriLink</a>
-        <div style="display: flex; flex-wrap: wrap; justify-content: flex-end; margin-bottom: 0.5rem;">
-            <a href="/about" class="bg-white text-green-600 px-4 py-2 rounded ml-3"
-                style="margin: 0.25rem;">आमच्याबद्दल</a>
-            <a href="/customer/orders" class="bg-white text-green-600 px-4 py-2 rounded" style="margin: 0.25rem;">माझ्या
-                ऑर्डर</a>
-            <a href="/customer/profile" class="bg-white text-green-600 px-4 py-2 rounded" style="margin: 0.25rem;">माझी
-                प्रोफाइल</a>
-            <a href="{{ url_for('customer_biddings') }}" class="bg-white text-green-600 px-4 py-2 rounded"
-                style="margin: 0.25rem;">सक्रिय बोली पहा</a>
-            <a href="{{ url_for('customer_bid_notifications') }}" class="bg-white text-green-600 px-4 py-2 rounded"
-                style="margin: 0.25rem;">येत्या बोली पहा</a>
-            <a href="/logout" class="bg-white text-green-600 px-4 py-2 rounded" style="margin: 0.25rem;">बाहेर पडणे</a>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="nav-container">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center menu-wrapper">
+            <!-- Logo -->
+            <a href="/customer/dashboard" class="text-white text-2xl font-bold flex items-center">
+                <i class="fas fa-leaf mr-2"></i>AgriLink
+            </a>
+
+            <!-- Hamburger Button -->
+            <button id="menu-btn" class="menu-btn text-white text-2xl border-none bg-transparent cursor-pointer">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Desktop Menu -->
+            <div id="desktop-menu" class="desktop-menu flex flex-wrap items-center gap-2">
+                <a href="/about" class="menu-item">
+                    <i class="fas fa-info-circle mr-1"></i> आमच्याबद्दल
+                </a>
+                <a href="/customer/orders" class="menu-item">
+                    <i class="fas fa-shopping-bag mr-1"></i> माझ्या ऑर्डर
+                </a>
+                <a href="/customer/profile" class="menu-item">
+                    <i class="fas fa-user mr-1"></i> माझी प्रोफाइल
+                </a>
+                <a href="{{ url_for('customer_biddings') }}" class="menu-item">
+                    <i class="fas fa-gavel mr-1"></i> सक्रिय बोली पहा
+                </a>
+                <a href="{{ url_for('customer_bid_notifications') }}" class="menu-item">
+                    <i class="fas fa-bell mr-1"></i> येत्या बोली पहा
+                </a>
+                <a href="/logout" class="menu-item">
+                    <i class="fas fa-sign-out-alt mr-1"></i> बाहेर पडणे
+                </a>
+            </div>
         </div>
     </nav>
 
-    <main class="container mx-auto mt-8 px-4">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">उपलब्ध उत्पादनं</h1>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+        <a href="/about" class="menu-item block w-full text-center mb-2">
+            <i class="fas fa-info-circle mr-1"></i> आमच्याबद्दल
+        </a>
+        <a href="/customer/orders" class="menu-item block w-full text-center mb-2">
+            <i class="fas fa-shopping-bag mr-1"></i> माझ्या ऑर्डर
+        </a>
+        <a href="/customer/profile" class="menu-item block w-full text-center mb-2">
+            <i class="fas fa-user mr-1"></i> माझी प्रोफाइल
+        </a>
+        <a href="{{ url_for('customer_biddings') }}" class="menu-item block w-full text-center mb-2">
+            <i class="fas fa-gavel mr-1"></i> सक्रिय बोली पहा
+        </a>
+        <a href="{{ url_for('customer_bid_notifications') }}" class="menu-item block w-full text-center mb-2">
+            <i class="fas fa-bell mr-1"></i> येत्या बोली पहा
+        </a>
+        <a href="/logout" class="menu-item block w-full text-center">
+            <i class="fas fa-sign-out-alt mr-1"></i> बाहेर पडणे
+        </a>
+    </div>
 
-        <div class="bg-white rounded-lg shadow p-6">
-            <h2 class="text-xl font-semibold mb-4">उत्पादनं</h2>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-6">
+        <h1 class="text-3xl font-bold text-gray-800 page-header">
+            <i class="fas fa-store mr-2 text-green-600"></i>उपलब्ध उत्पादनं
+        </h1>
 
-            <!-- Category Selection Dropdown -->
-            <form method="GET" action="{{ url_for('customer_dashboard') }}">
-                <div class="form-group mb-4">
-                    <label for="category" class="block text-sm font-medium text-gray-700">श्रेणी निवडा:</label>
-                    <div class="relative mt-1">
-                        <select id="category" name="category" onchange="this.form.submit()"
-                            class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded shadow leading-tight focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500">
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-filter text-green-600 mr-2 text-xl"></i>
+                <h2 class="text-xl font-semibold">श्रेणी निवडा</h2>
+            </div>
+
+            <form method="GET" action="{{ url_for('customer_dashboard') }}" id="filter-form">
+                <div class="form-group">
+                    <div class="relative">
+                        <select id="category" name="category" onchange="submitForm()"
+                            class="block appearance-none w-full md:w-1/2 bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded-lg shadow-sm">
                             <option value="">सर्व श्रेण्या</option>
                             {% for category in categories %}
-                            <option value="{{ category }}" {% if category==request.args.get('category') %}selected{%
-                                endif %}>{{ category }}</option>
+                            <option value="{{ category }}" {% if category==request.args.get('category') %}selected{% endif %}>{{ category }}</option>
                             {% endfor %}
                         </select>
-                        <div
-                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M7 10l5 5 5-5H7z"></path>
-                            </svg>
-                        </div>
+                        <div id="loader" class="loader ml-4"></div>
                     </div>
                 </div>
-
             </form>
 
             {% if products %}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="product-grid">
                 {% for product in products %}
-                <div
-                    class="border rounded-lg shadow-lg p-4 transition-transform duration-300 transform hover:scale-105">
-                    {% if product['image'] %}
-                    <img src="{{ product['image'] }}" alt="{{ product['name'] }}"
-                        onerror="this.src='https://via.placeholder.com/150';"
-                        class="w-full h-48 object-cover rounded-lg mb-4">
+                <div class="product-card animate__animated animate__fadeIn">
+                    <div class="overflow-hidden relative">
+                        <span class="category-badge">{{ product['category'] }}</span>
+                        {% if product['image'] %}
+                        <img src="{{ product['image'] }}" alt="{{ product['name'] }}"
+                            onerror="this.src='https://th.bing.com/th/id/OIP.hNYHG0R3HnNWko2nX3GkjAHaEK?w=275&h=180&c=7&r=0&o=5&pid=1.7'"
+                            class="product-image">
+                        {% else %}
+                        <img src="https://th.bing.com/th/id/OIP.hNYHG0R3HnNWko2nX3GkjAHaEK?w=275&h=180&c=7&r=0&o=5&pid=1.7"
+                            alt="{{ product['name'] }}" class="product-image">
+                        {% endif %}
+                    </div>
 
-                    {% endif %}
+                    <div class="product-details">
+                        <h3 class="product-name">{{ product['name'] }}</h3>
+                        <p class="product-info">शेतकरी: <span class="font-semibold">{{ product['farmer_name'] }}</span></p>
+                        <p class="product-info farmer-location">
+                            <i class="fas fa-map-marker-alt text-red-500"></i> 
+                            <span class="font-semibold">{{ product['farmer_location'] }}</span>
+                        </p>
+                        <p class="product-info">उपलब्ध: <span class="font-semibold">{{ product['quantity'] }}</span></p>
+                        <p class="product-price">रु {{ product['price'] }}</p>
 
-                    <h3 class="font-bold text-xl mt-2">{{ product['name'] }}</h3>
-                    <p class="text-gray-700 mt-1">श्रेणी: <span class="font-semibold">{{ product['category'] }}</span>
-                    </p>
-                    <p class="text-gray-700 mt-1">शेतकरी: <span class="font-semibold">{{ product['farmer_name']
-                            }}</span></p>
-                    <p class="text-gray-700 mt-1">स्थान: <span class="font-semibold">{{ product['farmer_location']
-                            }}</span></p>
-                    <p class="text-green-600 font-bold mt-3 text-lg">रु {{ product['price'] }}</p>
-                    <p class="text-gray-700 mt-1">Available: <span class="font-semibold">{{ product['quantity']
-                            }}</span></p>
-
-                    <form action="{{ url_for('add_to_cart', product_id=product['_id']) }}" method="POST">
-                        <input type="number" name="quantity" id="quantity_{{ product['_id'] }}" min="1" value="1"
-                            max="{{ product['quantity'] }}" class="w-16 p-2 border rounded" required
-                            onchange="checkQuantity({{ product['_id'] }}, {{ product['quantity'] }})">
-                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-                            गाडीमध्ये जोडा
-                        </button>
-                        <p id="warning_{{ product['_id'] }}" class="warning">⚠️ Selected quantity exceeds available
-                            stock!</p>
-                    </form>
-
+                        <form action="{{ url_for('add_to_cart', product_id=product['_id']) }}" method="POST" class="cart-form">
+                            <div class="cart-actions">
+                                <input type="number" name="quantity" id="quantity_{{ product['_id'] }}" min="1" value="1"
+                                    max="{{ product['quantity'] }}" class="quantity-input"
+                                    onchange="checkQuantity('{{ product['_id'] }}', {{ product['quantity'] }})">
+                                <button type="submit" class="cart-button">
+                                    <i class="fas fa-cart-plus"></i> गाडीमध्ये जोडा
+                                </button>
+                            </div>
+                            <div id="warning_{{ product['_id'] }}" class="warning">
+                                <i class="fas fa-exclamation-triangle"></i> निवडलेली मात्रा उपलब्ध साठ्यापेक्षा जास्त आहे!
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
 
             {% else %}
-            <p class="text-gray-600">या श्रेणीत कोणतीही उत्पादने सापडली नाहीत.</p>
+            <div class="text-center py-10">
+                <i class="fas fa-search text-4xl text-gray-400 mb-4"></i>
+                <p class="text-gray-600">या श्रेणीत कोणतीही उत्पादने सापडली नाहीत.</p>
+            </div>
             {% endif %}
         </div>
-
-
     </main>
 
+    <footer class="bg-gray-800 text-white py-6 mt-10">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="/" class="text-xl font-bold flex items-center">
+                        <i class="fas fa-leaf mr-2"></i>AgriLink
+                    </a>
+                    <p class="text-gray-300 mt-2">शेतकरी आणि ग्राहकांना जोडणारं अॅप</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-white hover:text-green-400 text-xl"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white hover:text-green-400 text-xl"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white hover:text-green-400 text-xl"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white hover:text-green-400 text-xl"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="mt-6 text-center text-gray-400 text-sm">
+                &copy; 2025 AgriLink. सर्व हक्क राखीव.
+            </div>
+        </div>
+    </footer>
+
     <script>
+        // Function to toggle mobile menu visibility
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuBtn = document.getElementById('menu-btn');
+            
+            if (mobileMenu.style.display === 'block') {
+                mobileMenu.style.display = 'none';
+                menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            } else {
+                mobileMenu.style.display = 'block';
+                menuBtn.innerHTML = '<i class="fas fa-times"></i>';
+            }
+        }
+        
+        // Add event listener to menu button
+        document.getElementById('menu-btn').addEventListener('click', toggleMobileMenu);
+        
         // Function to check if the selected quantity exceeds the available quantity
         function checkQuantity(productId, availableQuantity) {
             var quantityInput = document.getElementById('quantity_' + productId);
@@ -216,12 +504,34 @@
             var selectedQuantity = parseInt(quantityInput.value);
 
             if (selectedQuantity > availableQuantity) {
-                warningMsg.style.display = 'block'; // Show warning message
+                warningMsg.style.display = 'flex'; // Show warning message
                 quantityInput.value = availableQuantity; // Set the input value to the max available quantity
             } else {
                 warningMsg.style.display = 'none'; // Hide warning message
             }
         }
+        
+        // Function to submit the form with loading animation
+        function submitForm() {
+            document.getElementById('loader').style.display = 'inline-block';
+            document.getElementById('filter-form').submit();
+        }
+        
+        // Close mobile menu when window is resized to desktop size
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) {
+                document.getElementById('mobile-menu').style.display = 'none';
+                document.getElementById('menu-btn').innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+        
+        // Add animation to products on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const products = document.querySelectorAll('.product-card');
+            products.forEach((product, index) => {
+                product.style.animationDelay = (index * 0.1) + 's';
+            });
+        });
     </script>
 
 </body>

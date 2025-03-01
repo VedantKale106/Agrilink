@@ -3,40 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>माझ्या बोली - Agrilink</title>  <script src="https://cdn.tailwindcss.com"></script>
+    <title>माझ्या बोली - Agrilink</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* Custom styles if needed */
+        /* Custom styles if needed */
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
 
     <div class="container mx-auto p-4">
-        <h2 class="text-2xl font-bold mb-4 text-center">माझ्या सक्रिय बोली</h2> <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">  {% for bid in biddings %}
-            <div class="bg-white rounded-lg shadow-md p-4 bid-card">
-                <img src="{{ bid.image_url }}" alt="Product Image" class="w-full h-40 object-cover rounded-t-lg mb-2">
-                <h3 class="text-xl font-semibold mb-1">{{ bid.product_name }}</h3>
-                <p class="text-gray-600 mb-1">सध्याची सर्वोच्च बोली: ₹{{ bid.highest_bid }}</p> <p class="text-gray-600 mb-1">बेस किंमत: ₹{{ bid.base_price }}</p> <p class="text-gray-600 mb-1">Quantity: {{ bid.quantity }}</p>
+        <h2 class="text-2xl font-bold mb-4 text-center">माझ्या सक्रिय बोली</h2>
 
-                {% if bid.highest_bidder %}
-                    <p class="text-gray-600 mb-1">सर्वात जास्त बोली लावणारा आयडी: {{ bid.highest_bidder }}</p> {% else %}
-                    <p class="text-gray-600 mb-1">अद्याप कोणतीही बोली नाही</p> {% endif %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for bid in biddings|reverse %} <div class="bg-white rounded-lg shadow-md p-4 bid-card">
+                    <img src="{{ bid.image_url }}" alt="Product Image" class="w-full h-40 object-cover rounded-t-lg mb-2">
+                    <h3 class="text-xl font-semibold mb-1">{{ bid.product_name }}</h3>
+                    <p class="text-gray-600 mb-1">सध्याची सर्वोच्च बोली: ₹{{ bid.highest_bid }}</p>
+                    <p class="text-gray-600 mb-1">बेस किंमत: ₹{{ bid.base_price }}</p>
+                    <p class="text-gray-600 mb-1">Quantity: {{ bid.quantity }}</p>
 
-                {% if bid.status == "open" %}
-                    <form method="post" action="{{ url_for('end_bid', bid_id=bid._id) }}" class="mt-2">
-                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            बोली समाप्त करा </button>
-                    </form>
-                {% else %}
-                    <p class="text-red-500 font-bold mt-2">बोली बंद झाली आहे</p> {% endif %}
-            </div>
+                    {% if bid.highest_bidder %}
+                        <p class="text-gray-600 mb-1">सर्वात जास्त बोली लावणारा आयडी: {{ bid.highest_bidder }}</p>
+                    {% else %}
+                        <p class="text-gray-600 mb-1">अद्याप कोणतीही बोली नाही</p>
+                    {% endif %}
+
+                    {% if bid.status == "open" %}
+                        <form method="post" action="{{ url_for('end_bid', bid_id=bid._id) }}" class="mt-2">
+                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                बोली समाप्त करा
+                            </button>
+                        </form>
+                    {% else %}
+                        <p class="text-red-500 font-bold mt-2">बोली बंद झाली आहे</p>
+                    {% endif %}
+                </div>
             {% endfor %}
         </div>
 
         <div class="mt-4 text-center">
             <a href="{{ url_for('farmer_dashboard') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                डॅशबोर्डवर परत जा </a>
+                डॅशबोर्डवर परत जा
+            </a>
         </div>
     </div>
 
 </body>
-</html>
+</html>     

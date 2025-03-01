@@ -5,44 +5,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>आगामी बोली सूचना</title>
-    <script src="https://cdn.tailwindcss.com"></script> </head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</head>
 
-<body class="bg-gray-100 font-sans">
-    <div class="container mx-auto mt-8 p-6 bg-white rounded-lg shadow-md transition duration-300 ease-in-out hover:scale-105">
-        <h2 class="text-2xl font-bold text-center text-green-600 mb-6 animate-pulse">आगामी बोली सूचना</h2>
+<body class="bg-gradient-to-br from-green-50 to-blue-50 font-sans min-h-screen">
+    <div class="container mx-auto py-8 px-4 sm:px-6">
+        <!-- Card with floating effect -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-500 hover:shadow-2xl">
+            <!-- Header with wave design -->
+            <div class="relative bg-gradient-to-r from-green-500 to-green-600 py-6">
+                <div class="absolute top-0 left-0 w-full overflow-hidden">
+                    <svg class="inline-block" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255, 255, 255, 0.08)"></path>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-center text-white relative z-10">
+                    <i class="fas fa-gavel mr-2"></i>आगामी बोली सूचना
+                </h2>
+                <p class="text-center text-green-100 mt-2 relative z-10">आपल्या पुढील बोली संधी</p>
+            </div>
 
-        <div class="overflow-x-auto">
-            {% if bids %}
-            <table class="min-w-full table-auto border-collapse border border-gray-300">
-                <thead class="bg-green-500 text-white">
-                    <tr>
-                        <th class="px-4 py-2 text-left border border-gray-300">उत्पादन</th>
-                        <th class="px-4 py-2 text-left border border-gray-300">किंमत (₹)</th>
-                        <th class="px-4 py-2 text-left border border-gray-300">नग</th>
-                        <th class="px-4 py-2 text-left border border-gray-300">बोली सुरू होण्याची वेळ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for bid in bids %}
-                    <tr class="hover:bg-gray-200 transition duration-200">
-                        <td class="px-4 py-2 border border-gray-300">{{ bid.product_name }}</td>
-                        <td class="px-4 py-2 border border-gray-300">{{ bid.base_price }}</td>
-                        <td class="px-4 py-2 border border-gray-300">{{ bid.quantity }}</td>
-                        <td class="px-4 py-2 border border-gray-300">{{ bid.formatted_datetime }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            <p class="text-center text-gray-600 mt-4">सध्या कोणतीही आगामी बोली नाही.</p>
-            {% endif %}
+            <!-- Main content -->
+            <div class="p-4 sm:p-6">
+                <div class="overflow-x-auto rounded-lg">
+                    {% if bids %}
+                    <table class="min-w-full table-auto border-collapse">
+                        <thead class="bg-green-100">
+                            <tr>
+                                <th class="px-3 py-3 text-left text-sm font-semibold text-green-800 border-b-2 border-green-200">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-box-open mr-2"></i>उत्पादन
+                                    </div>
+                                </th>
+                                <th class="px-3 py-3 text-left text-sm font-semibold text-green-800 border-b-2 border-green-200">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-rupee-sign mr-2"></i>किंमत (₹)
+                                    </div>
+                                </th>
+                                <th class="px-3 py-3 text-left text-sm font-semibold text-green-800 border-b-2 border-green-200">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-layer-group mr-2"></i>नग
+                                    </div>
+                                </th>
+                                <th class="px-3 py-3 text-left text-sm font-semibold text-green-800 border-b-2 border-green-200">
+                                    <div class="flex items-center">
+                                        <i class="far fa-clock mr-2"></i>बोली सुरू होण्याची वेळ
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for bid in bids %}
+                            <tr class="hover:bg-green-50 transition-colors duration-200 group">
+                                <td class="px-3 py-4 border-b border-green-100 text-sm">
+                                    <span class="font-medium text-gray-800">{{ bid.product_name }}</span>
+                                </td>
+                                <td class="px-3 py-4 border-b border-green-100 text-sm">
+                                    <span class="font-medium text-green-700">{{ bid.base_price }}</span>
+                                </td>
+                                <td class="px-3 py-4 border-b border-green-100 text-sm">
+                                    {{ bid.quantity }}
+                                </td>
+                                <td class="px-3 py-4 border-b border-green-100 text-sm">
+                                    <div class="flex items-center">
+                                        <span class="bg-green-100 text-green-800 text-xs font-medium py-1 px-2 rounded">
+                                            {{ bid.formatted_datetime }}
+                                        </span>
+                                        <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            <i class="fas fa-bell text-green-500"></i>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <div class="py-12 text-center">
+                        <div class="inline-block p-4 rounded-full bg-green-100 mb-4">
+                            <i class="fas fa-search text-3xl text-green-500"></i>
+                        </div>
+                        <p class="text-gray-600 text-lg">सध्या कोणतीही आगामी बोली नाही.</p>
+                        <p class="text-sm text-gray-500 mt-2">कृपया नंतर पुन्हा तपासा.</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Reminder section -->
+                {% if bids %}
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-lightbulb text-yellow-500 text-xl"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-blue-800">उपयोगी टीप</h3>
+                            <div class="mt-1 text-sm text-blue-700">
+                                आपल्या मोबाईलवर सूचना मिळवण्यासाठी बोली आधी 30 मिनिटे नोंदणी करा.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Action buttons -->
+                <div class="mt-6 flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-3">
+                    <a href="/customer/dashboard" class="inline-flex justify-center items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow-sm transition duration-300">
+                        <i class="fas fa-home mr-2"></i>
+                        डॅशबोर्डवर परत जा
+                    </a>
+                    {% if bids %}
+                    <a href="/customer/notifications" class="inline-flex justify-center items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md shadow-sm transition duration-300">
+                        <i class="fas fa-bell mr-2"></i>
+                        सूचना व्यवस्थापित करा
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 border-t border-gray-100">
+                <div class="text-center text-xs text-gray-500">
+                    आपली बोली, आपला विश्वास - © 2025
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="mt-6 text-center">
-            <a href="/customer/dashboard" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-                डॅशबोर्डवर परत जा
-            </a>
-        </div>
+    <!-- Floating help button for mobile -->
+    <div class="fixed bottom-4 right-4 md:hidden">
+        <button class="bg-green-600 hover:bg-green-700 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg transition duration-300 focus:outline-none">
+            <i class="fas fa-question"></i>
+        </button>
     </div>
 </body>
 

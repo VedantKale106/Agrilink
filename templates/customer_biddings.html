@@ -1,43 +1,311 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Active Biddings - Agrilink</title>
+    <title>सक्रिय बोली - Agrilink</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+        }
+        
+        .live-pulse {
+            animation: pulse-green 2s infinite;
+        }
+        
+        .bid-timer {
+            background: linear-gradient(90deg, #f59e0b 0%, #ef4444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .bid-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bid-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bid-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .bid-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .image-fade {
+            position: relative;
+        }
+        
+        .image-fade::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
+            pointer-events: none;
+        }
+        
+        .bid-input:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+            outline: none;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 font-sans">
-    <div class="container mx-auto p-4">
-        <h2 class="text-2xl font-bold mb-4 text-center">Active Biddings</h2>
+<body class="bg-gradient-to-br from-green-50 to-gray-100 font-sans min-h-screen">
+    <!-- Header with farm illustration -->
+    <div class="relative bg-green-600 text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="h-full w-full">
+                <path d="M0,0 L100,0 L100,10 C80,30 50,50 20,60 L0,50 Z" fill="white"></path>
+                <path d="M0,60 Q30,70 60,60 T100,70 L100,100 L0,100 Z" fill="white"></path>
+            </svg>
+        </div>
+        <div class="container mx-auto px-4 py-6 relative z-10">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-leaf text-3xl mr-3 text-green-300"></i>
+                <h1 class="text-3xl font-bold">Agrilink</h1>
+            </div>
+            <div class="mt-2 text-center">
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-white bg-opacity-20 text-sm font-medium">
+                    <span class="h-2 w-2 rounded-full bg-green-300 mr-2 live-pulse"></span>
+                    लाईव्ह बोली
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="container mx-auto p-4 max-w-6xl">
+        <div class="my-6 text-center">
+            <h2 class="text-3xl font-bold mb-2 text-gray-800">सक्रिय बोली</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">श्रेष्ठ दर्जाच्या शेतमालासाठी आपली बोली लावा आणि थेट शेतकऱ्यांकडून खरेदी करा</p>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="flex flex-wrap justify-center mb-8 gap-2">
+            <button class="px-4 py-2 rounded-full bg-green-600 text-white font-medium text-sm hover:bg-green-700 transition">
+                सर्व बोली
+            </button>
+            <button class="px-4 py-2 rounded-full bg-white text-gray-700 font-medium text-sm hover:bg-gray-100 transition">
+                फळे
+            </button>
+            <button class="px-4 py-2 rounded-full bg-white text-gray-700 font-medium text-sm hover:bg-gray-100 transition">
+                भाज्या
+            </button>
+            <button class="px-4 py-2 rounded-full bg-white text-gray-700 font-medium text-sm hover:bg-gray-100 transition">
+                धान्य
+            </button>
+        </div>
+
+        <!-- Bid cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for bid in biddings %}
-            <div class="bg-white rounded-lg shadow-md p-4 bid-card">
-                <img src="{{ bid.image_url }}" alt="Product Image" class="w-full h-40 object-cover rounded-t-lg mb-2">
-                <h3 class="text-xl font-semibold mb-1">{{ bid.product_name }}</h3>
-                <p class="text-gray-600 mb-1">Current Highest Bid: ₹{{ bid.highest_bid }}</p>
-                <p class="text-gray-600 mb-1">Base Price: ₹{{ bid.base_price }}</p>
-                <p class="text-gray-600 mb-1">Quantity: {{ bid.quantity }}</p>
-
+            <div class="bid-card bg-white rounded-xl shadow-md overflow-hidden">
+                <!-- Badge for status -->
                 {% if bid.status == "open" %}
-                    <form method="post" action="{{ url_for('place_bid', bid_id=bid._id) }}" class="mt-2">
-                        <input type="number" name="bid_amount" min="{{ bid.highest_bid }}" required class="w-full border border-gray-300 px-3 py-2 rounded mb-2">
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">
-                            Place Bid
-                        </button>
-                    </form>
+                <div class="absolute top-4 right-4 z-10">
+                    <span class="px-3 py-1 rounded-full bg-green-500 text-white text-xs font-bold flex items-center">
+                        <span class="h-2 w-2 rounded-full bg-white mr-2 animate-pulse"></span>लाईव्ह
+                    </span>
+                </div>
                 {% else %}
-                    <p class="text-red-500 font-bold mt-2">Bidding Closed</p>
+                <div class="absolute top-4 right-4 z-10">
+                    <span class="px-3 py-1 rounded-full bg-red-500 text-white text-xs font-bold">बंद झाले</span>
+                </div>
                 {% endif %}
+                
+                <!-- Product Image -->
+                <div class="relative image-fade">
+                    <img src="{{ bid.image_url }}" alt="{{ bid.product_name }}" class="w-full h-48 object-cover">
+                    <div class="absolute bottom-0 left-0 w-full p-3 bg-gradient-to-t from-black to-transparent">
+                        <div class="flex justify-between items-center">
+                            <span class="text-white font-medium truncate">{{ bid.product_name }}</span>
+                            {% if bid.status == "open" %}
+                            <span class="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded">
+                                <i class="far fa-clock mr-1"></i><span class="bid-timer">02:45:30</span>
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bid Info -->
+                <div class="p-4">
+                    <div class="flex flex-wrap justify-between mb-4">
+                        <div class="mb-2">
+                            <p class="text-xs text-gray-500">बेस किंमत</p>
+                            <p class="text-lg font-semibold">₹{{ bid.base_price }}</p>
+                        </div>
+                        <div class="mb-2">
+                            <p class="text-xs text-gray-500">सध्याची बोली</p>
+                            <p class="text-lg font-semibold text-green-600">₹{{ bid.highest_bid }}</p>
+                        </div>
+                        <div class="mb-2">
+                            <p class="text-xs text-gray-500">प्रमाण</p>
+                            <p class="text-lg font-semibold">{{ bid.quantity }}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Bidder info -->
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-xs text-gray-500">सर्वोच्च बोलीदार</p>
+                            <p class="text-sm font-medium">शेतकरी ID: #45{{ loop.index }}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Bid form or status message -->
+                    {% if bid.status == "open" %}
+                    <div class="relative mt-4">
+                        <form method="post" action="{{ url_for('place_bid', bid_id=bid._id) }}" class="space-y-3">
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">₹</span>
+                                <input type="number" name="bid_amount" min="{{ bid.highest_bid + 5 }}" required 
+                                       class="bid-input w-full pl-8 pr-24 py-3 rounded-lg border border-gray-300 focus:border-blue-500 transition"
+                                       placeholder="आपली बोली प्रविष्ट करा">
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <span class="text-xs text-gray-500">मिनी. ₹{{ bid.highest_bid + 5 }}</span>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-md hover:shadow-lg">
+                                <i class="fas fa-gavel mr-2"></i>बोली लावा
+                            </button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="mt-4 bg-red-50 border border-red-100 rounded-lg p-3 text-center">
+                        <p class="text-red-600 font-medium"><i class="fas fa-ban mr-2"></i>ही बोली बंद झाली आहे</p>
+                        <p class="text-xs text-red-500 mt-1">विजेता: शेतकरी ID #45{{ loop.index }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Bid history link -->
+                <div class="px-4 py-3 bg-gray-50 border-t border-gray-100">
+                    <a href="#" class="text-sm text-blue-600 hover:text-blue-800 flex items-center justify-center transition">
+                        <i class="fas fa-history mr-1"></i>
+                        बोली इतिहास पहा
+                        <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                    </a>
+                </div>
             </div>
             {% endfor %}
         </div>
 
-        <div class="mt-4 text-center">
-            <a href="{{ url_for('customer_dashboard') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Back to Dashboard
+        <!-- No bids message -->
+        {% if biddings|length == 0 %}
+        <div class="text-center py-16 bg-white rounded-xl shadow-sm my-6">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+                <i class="fas fa-search text-2xl text-gray-400"></i>
+            </div>
+            <h3 class="text-xl font-medium text-gray-800 mb-2">कोणतीही सक्रिय बोली नाही</h3>
+            <p class="text-gray-600 max-w-md mx-auto">सध्या कोणतीही सक्रिय बोली उपलब्ध नाही. कृपया नंतर पुन्हा तपासा किंवा नवीन बोलींसाठी सूचना मिळवण्यासाठी नोंदणी करा.</p>
+        </div>
+        {% endif %}
+
+        <!-- Pagination -->
+        {% if biddings|length > 0 %}
+        <div class="mt-8 flex justify-center">
+            <nav class="inline-flex rounded-md shadow">
+                <a href="#" class="px-3 py-2 rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+                <a href="#" class="px-3 py-2 border-t border-b border-gray-300 bg-green-600 text-white hover:bg-green-700">1</a>
+                <a href="#" class="px-3 py-2 border-t border-b border-gray-300 bg-white text-gray-500 hover:bg-gray-50">2</a>
+                <a href="#" class="px-3 py-2 border-t border-b border-gray-300 bg-white text-gray-500 hover:bg-gray-50">3</a>
+                <a href="#" class="px-3 py-2 rounded-r-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </nav>
+        </div>
+        {% endif %}
+
+        <!-- Action buttons -->
+        <div class="mt-8 text-center space-y-3 sm:space-y-0 sm:flex sm:justify-center sm:space-x-4">
+            <a href="{{ url_for('customer_dashboard') }}" class="inline-flex items-center px-6 py-3 bg-white border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+                <i class="fas fa-arrow-left mr-2"></i>
+                डॅशबोर्डवर परत जा
+            </a>
+            <a href="#" class="inline-flex items-center px-6 py-3 bg-blue-600 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white hover:bg-blue-700 transition">
+                <i class="fas fa-bell mr-2"></i>
+                बोली सूचना मिळवा
             </a>
         </div>
     </div>
+
+    <!-- Quick help floating button -->
+    <div class="fixed bottom-6 right-6">
+        <button class="w-12 h-12 bg-green-600 rounded-full text-white shadow-lg flex items-center justify-center hover:bg-green-700 transition">
+            <i class="fas fa-question"></i>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-12 bg-gray-800 text-gray-200">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-leaf mr-2 text-green-400"></i>
+                        Agrilink
+                    </h3>
+                    <p class="text-gray-400">शेतकरी आणि ग्राहकांना थेट जोडणारे व्यासपीठ</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-medium mb-4">संपर्क</h4>
+                    <p class="flex items-center mb-2 text-gray-400">
+                        <i class="fas fa-envelope mr-2 text-green-400"></i>
+                        info@agrilink.com
+                    </p>
+                    <p class="flex items-center mb-2 text-gray-400">
+                        <i class="fas fa-phone mr-2 text-green-400"></i>
+                        +91 1234567890
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-medium mb-4">फॉलो करा</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>&copy; 2025 Agrilink. सर्व हक्क राखीव.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

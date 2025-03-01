@@ -18,31 +18,55 @@
 
 <body class="bg-gray-100">
     <nav class="bg-green-600 p-4">
-        <div class="container mx-auto flex flex-wrap justify-between items-center">
-            <a href="/farmer/dashboard" class="text-white text-xl font-bold">AgriLink</a>
-            <div class="flex flex-wrap mt-2 md:mt-0">
-                <a href="/about"
-                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">आमच्याबद्दल</a>
-                <a href="/farmer/add_product"
-                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">उत्पादन
-                    जोडा</a>
-                <a href="/farmer/orders"
-                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">माझ्या
-                    ऑर्डर्स</a>
-                <a href="{{ url_for('add_bid') }}"
-                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">बोलीसाठी
-                    उत्पादन सूचीबद्ध करा</a>
-                <a href="{{ url_for('farmer_biddings') }}"
-                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">माझ्या
-                    बोली पहा</a>
-                    <a href="{{ url_for('add_bid_notification') }}"
-                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">बोली सूचना सेट करा</a>
-                <a href="/logout"
-                    class="bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 hover:bg-green-100 transition duration-300">बाहेर
-                    पडा</a>
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="/farmer/dashboard" class="text-white text-xl font-bold">AgriLink</a>
+                <div id="menu" class="md:hidden ml-4">
+                    <button id="menu-toggle" class="text-white focus:outline-none">
+                        <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                            <path id="menu-open" fill-rule="evenodd" clip-rule="evenodd" d="M4 6H20V8H4V6ZM4 11H20V13H4V11ZM4 16H20V18H4V16Z" />
+                            <path id="menu-close" fill-rule="evenodd" clip-rule="evenodd" d="M18.707 18.707L17.293 20.121L12 14.828L6.707 20.121L5.293 18.707L10.586 13.414L18.707 18.707Z" style="display: none;" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="desktop-menu" class="hidden md:flex md:flex-row mt-2 md:mt-0 md:items-center w-full md:w-auto">
+                <div id="desktop-menu-items" class="md:flex md:flex-row w-full md:w-auto">
+                    <a href="/about" class="block bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">आमच्याबद्दल</a>
+                    <a href="/farmer/add_product" class="block bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">उत्पादन जोडा</a>
+                    <a href="/farmer/orders" class="block bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">माझ्या ऑर्डर्स</a>
+                    <a href="{{ url_for('add_bid') }}" class="block bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">बोलीसाठी उत्पादन सूचीबद्ध करा</a>
+                    <a href="{{ url_for('farmer_biddings') }}" class="block bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">माझ्या बोली पहा</a>
+                    <a href="{{ url_for('add_bid_notification') }}" class="block bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 mb-2 md:mb-0 hover:bg-green-100 transition duration-300">बोली सूचना सेट करा</a>
+                    <a href="/logout" class="block bg-white text-green-600 px-4 py-2 rounded ml-0 md:ml-3 hover:bg-green-100 transition duration-300">बाहेर पडा</a>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden w-full">
+            <div id="mobile-menu-items" class="flex flex-col">
+                <a href="/about" class="block bg-white text-green-600 px-4 py-2 rounded mb-2 hover:bg-green-100 transition duration-300">आमच्याबद्दल</a>
+                <a href="/farmer/add_product" class="block bg-white text-green-600 px-4 py-2 rounded mb-2 hover:bg-green-100 transition duration-300">उत्पादन जोडा</a>
+                <a href="/farmer/orders" class="block bg-white text-green-600 px-4 py-2 rounded mb-2 hover:bg-green-100 transition duration-300">माझ्या ऑर्डर्स</a>
+                <a href="{{ url_for('add_bid') }}" class="block bg-white text-green-600 px-4 py-2 rounded mb-2 hover:bg-green-100 transition duration-300">बोलीसाठी उत्पादन सूचीबद्ध करा</a>
+                <a href="{{ url_for('farmer_biddings') }}" class="block bg-white text-green-600 px-4 py-2 rounded mb-2 hover:bg-green-100 transition duration-300">माझ्या बोली पहा</a>
+                <a href="{{ url_for('add_bid_notification') }}" class="block bg-white text-green-600 px-4 py-2 rounded mb-2 hover:bg-green-100 transition duration-300">बोली सूचना सेट करा</a>
+                <a href="/logout" class="block bg-white text-green-600 px-4 py-2 rounded hover:bg-green-100 transition duration-300">बाहेर पडा</a>
             </div>
         </div>
     </nav>
+    
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuOpen = document.getElementById('menu-open');
+        const menuClose = document.getElementById('menu-close');
+    
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuOpen.style.display = mobileMenu.classList.contains('hidden') ? 'block' : 'none';
+            menuClose.style.display = mobileMenu.classList.contains('hidden') ? 'none' : 'block';
+        });
+    </script>
 
     <main class="container mx-auto mt-8 px-4">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">

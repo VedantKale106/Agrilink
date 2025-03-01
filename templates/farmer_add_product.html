@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
+    <title>उत्पादन जोडा</title>
     <style>
         /* Global Reset */
         * {
@@ -15,7 +15,7 @@
 
         /* Body Styling */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif; /* Replace with a suitable Marathi font */
             background-color: #f8fafc;
             color: #333;
         }
@@ -81,7 +81,7 @@
             color: #555;
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 12px;
             font-size: 16px;
@@ -90,7 +90,7 @@
             transition: border-color 0.3s ease;
         }
 
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus {
             border-color: #4CAF50;
             outline: none;
         }
@@ -150,78 +150,23 @@
         }
 
         /* Hover effect on form fields */
-        .form-group input:hover {
+        .form-group input:hover, .form-group select:hover {
             border-color: #5ac152;
         }
 
-        .styled-select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            color: #333;
-            appearance: none;
-            /* Hide default arrow */
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMCAxMCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIj4KICA8cGF0aCBkPSJNNSAyTDkuNSA3LjVoLTFMMTVMNzkgNSAyTDkuNSA3LjVoLTFMMTvNDM1MUFBVBXMiAgZmlsbD0iIzMzMyIgc3Ryb2tlPSJub25lIi8+Cjwvc3ZnPg==');
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-        }
-
-        /* Focus Style for Select */
-        .styled-select:focus {
-            border-color: #007BFF;
-            outline: none;
-        }
-
-        /* Styling the Input */
-        .styled-input {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            color: #333;
-            transition: border-color 0.3s ease-in-out;
-        }
-
-        /* Focus Style for Input */
-        .styled-input:focus {
-            border-color: #007BFF;
-            outline: none;
-        }
-
-        /* Price Group Styling */
         .price-group {
             display: flex;
             gap: 10px;
         }
 
-        .price-group .styled-input {
-            flex: 2;
-        }
-
-        .price-group .styled-select {
+        .price-group input, .price-group select {
             flex: 1;
-        }
-
-        /* Hover and Focus Effects */
-        .styled-input:hover,
-        .styled-select:hover {
-            border-color: #0056b3;
         }
 
         /* Make Selects Look Nicer on Mobile */
         @media (max-width: 768px) {
             .price-group {
                 flex-direction: column;
-            }
-
-            .price-group .styled-input,
-            .price-group .styled-select {
-                width: 100%;
             }
         }
     </style>
@@ -237,7 +182,6 @@
     <div class="container">
         <h2>नवीन उत्पादन जोडा</h2>
 
-        <!-- Display farmer's name and location -->
         <div class="form-group">
             <label for="farmer_name">शेतकरी नाव:</label>
             <input type="text" id="farmer_name" name="farmer_name" value="{{ farmer_name }}" readonly>
@@ -256,10 +200,9 @@
                 <input type="text" id="product_name" name="product_name" required>
             </div>
 
-            <!-- Updated Category Dropdown -->
             <div class="form-group">
                 <label for="category">श्रेणी:</label>
-                <select id="category" name="category" required class="styled-select">
+                <select id="category" name="category" required>
                     <option value="" disabled selected>श्रेणी निवडा</option>
                     <option value="Vegetables">भाज्या</option>
                     <option value="Fruits">फळे</option>
@@ -269,13 +212,11 @@
                 </select>
             </div>
 
-            <!-- Updated Price Input with Unit Dropdown -->
             <div class="form-group">
                 <label for="price">किंमत:</label>
                 <div class="price-group">
-                    <input type="number" id="price" name="price" required placeholder="किंमत प्रविष्ट करा"
-                        class="styled-input">
-                    <select id="price_unit" name="price_unit" required class="styled-select">
+                    <input type="number" id="price" name="price" required placeholder="किंमत प्रविष्ट करा">
+                    <select id="price_unit" name="price_unit" required>
                         <option value="per kg">प्रति किलोग्राम</option>
                         <option value="per dozen">प्रति डझन</option>
                         <option value="per litre">प्रति लिटर</option>
@@ -284,21 +225,18 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="quantity">Quantity</label>
+                <label for="quantity">प्रमाण:</label>
                 <input type="number" id="quantity" name="quantity" min="1" required>
             </div>
-            
 
             <div class="form-group">
                 <label for="image_url">उत्पादनाचा प्रतिमा URL:</label>
                 <input type="url" id="image_url" name="image_url" required placeholder="https://example.com/image.jpg">
             </div>
-            
 
             <button type="submit">उत्पादन जोडा</button>
         </form>
     </div>
-
 </body>
 
 </html>

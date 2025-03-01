@@ -454,7 +454,7 @@ def place_bid(bid_id):
     )
 
     flash("Bid placed successfully!", "success")
-    return redirect(url_for('customer_dashboard'))
+    return redirect(url_for('customer_biddings'))
 
 
 @app.route('/farmer/end_bid/<bid_id>', methods=['POST'])
