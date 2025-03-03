@@ -169,7 +169,7 @@
 </head>
 
 <body>
-    <nav>
+    <nav class="main-nav">
         <div class="nav-container">
             <a href="/" class="logo">Agrilink</a>
             <div class="nav-links">
@@ -177,8 +177,102 @@
                 <a href="/farmer/login">शेतकऱ्यांचे लॉगिन</a>
                 <a href="/customer/login">ग्राहकांचे लॉगिन</a>
             </div>
+            <button class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
         </div>
     </nav>
+    
+    <style>
+    .main-nav {
+        background-color: #f0f0f0;
+        padding: 10px 20px;
+    }
+    
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+    }
+    
+    .nav-links {
+        display: flex;
+    }
+    
+    .nav-links a {
+        text-decoration: none;
+        color: #333;
+        padding: 10px 15px;
+    }
+    
+    .nav-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+    }
+    
+    .nav-toggle .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        background-color: #333;
+        transition: all 0.3s ease-in-out;
+    }
+    
+    /* मोबाइलसाठी मीडिया क्वेरी */
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 10px;
+        }
+    
+        .nav-links.show {
+            display: flex;
+        }
+    
+        .nav-toggle {
+            display: block;
+        }
+    
+        .nav-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+    
+        .nav-toggle.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+    
+        .nav-toggle.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+    }
+    </style>
+    
+    <script>
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+            navToggle.classList.toggle('active');
+        });
+    }
+    </script>
 
     <div class="hero">
         <div class="hero-content">

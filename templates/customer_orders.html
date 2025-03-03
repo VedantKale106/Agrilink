@@ -6,54 +6,252 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>माझ्या ऑर्डर्स - AgriLink</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .bg-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23bfdbcf' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-100">
-    <nav class="bg-green-600 p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="/customer/dashboard" class="text-white text-xl font-bold">AgriLink</a>
-            <a href="/logout" class="bg-white text-green-600 px-4 py-2 rounded">बाहेर पडणे</a>
-        </div>
-    </nav>
+<body class="bg-pattern min-h-screen">
+    <!-- Header with gradient -->
+    <header class="bg-gradient-to-r from-green-700 via-green-600 to-green-500 shadow-lg sticky top-0 z-10">
+        <nav class="container mx-auto p-4">
+            <div class="flex justify-between items-center">
+                <a href="/customer/dashboard" class="flex items-center">
+                    <i class="fas fa-leaf text-white mr-2 text-xl"></i>
+                    <span class="text-white text-xl font-bold tracking-wide">AgriLink</span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <a href="/customer/profile" class="text-white hover:text-green-200 transition">
+                        <i class="fas fa-user-circle text-xl"></i>
+                    </a>
+                    <a href="/customer/notifications" class="text-white hover:text-green-200 transition relative">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span>
+                    </a>
+                    <a href="/logout" class="bg-white text-green-600 px-4 py-2 rounded-full hover:bg-green-100 transition shadow-md flex items-center">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        <span>बाहेर पडणे</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-    <main class="container mx-auto mt-8 px-4">
-        <h1 class="text-2xl font-bold mb-6">माझ्या ऑर्डर्स</h1>
+    <!-- Main content -->
+    <main class="container mx-auto mt-8 px-4 pb-16">
+        <!-- Page header with search -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800 flex items-center">
+                    <i class="fas fa-shopping-basket text-green-600 mr-3"></i>
+                    माझ्या ऑर्डर्स
+                </h1>
+                <p class="text-gray-600 mt-1">आपल्या खरेदी केलेल्या उत्पादनांची यादी</p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                <div class="relative">
+                    <input type="text" placeholder="ऑर्डर शोधा..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 w-full md:w-64">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="flex overflow-x-auto scrollbar-hide space-x-2 mb-6 pb-2">
+            <button class="px-4 py-2 bg-green-600 text-white rounded-full whitespace-nowrap shadow-md">सर्व ऑर्डर</button>
+            <button class="px-4 py-2 bg-white text-gray-700 rounded-full whitespace-nowrap hover:bg-green-50 border border-gray-200">प्रलंबित</button>
+            <button class="px-4 py-2 bg-white text-gray-700 rounded-full whitespace-nowrap hover:bg-green-50 border border-gray-200">पाठवले</button>
+            <button class="px-4 py-2 bg-white text-gray-700 rounded-full whitespace-nowrap hover:bg-green-50 border border-gray-200">वितरित</button>
+            <button class="px-4 py-2 bg-white text-gray-700 rounded-full whitespace-nowrap hover:bg-green-50 border border-gray-200">रद्द केले</button>
+        </div>
 
         {% if orders %}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for order in orders|reverse %}
-            <div class="border rounded-lg p-4 shadow-lg">
-                <img src="{{ order['image'] }}" class="w-full h-40 object-cover rounded">
-                <h2 class="font-bold text-xl mt-2">{{ order['product_name'] }}</h2>
-                <p>श्रेणी: {{ order['category'] }}</p>
-                <p>प्रमाण: {{ order['quantity'] }} {{ order['unit'] }}</p>
-                <p>किंमत: {{ order['price'] }}</p>
-                <p>ऑर्डर दिनांक: {{ order['added_at'] }}</p>
-
-                <p
-                    class="font-semibold {% if order['status'] == 'Delivered' %} text-green-600 {% else %} text-red-600 {% endif %}">
-                    स्थिती: {{ order['status'] }}
-                </p>
-
-                {% if order['farmer_phone'] %}
-                <div class="mt-4">
-                    <a href="tel:{{ order['farmer_phone'] }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg mr-2">
-                        कॉल करा
-                    </a>
-                    <a href="https://wa.me/{{ order['farmer_phone'] }}?text=नमस्कार, मी {{ order['product_name'] }} Order केले आहे, जो {{ order['added_at'] }} रोजी ऑर्डर केला. प्रमाण: {{ order['quantity'] }} {{ order['unit'] }} आणि किंमत: {{ order['price'] }} आहे. कृपया डिलिव्हरी स्थिती काय आहे?"
-                        target="_blank" class="bg-green-600 text-white px-4 py-2 rounded-lg">
-                        व्हॉट्सअॅपवर संपर्क करा
-                    </a>
-
+            <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 card-hover border border-gray-100">
+                <div class="relative">
+                    {% if order['image'] %}
+                        <img src="{{ order['image'] }}" class="w-full h-48 object-cover" alt="{{ order['product_name'] }}">
+                    {% else %}
+                        <img src="/static/farmer.png" class="w-full h-48 object-cover" alt="Default Product Image">
+                    {% endif %}
+                    <div class="absolute top-0 right-0 m-3">
+                        <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full 
+                            {% if order['status'] == 'Delivered' %} bg-green-500 text-white 
+                            {% elif order['status'] == 'Pending' %} bg-yellow-500 text-white 
+                            {% elif order['status'] == 'Shipped' %} bg-blue-500 text-white 
+                            {% else %} bg-red-500 text-white {% endif %}">
+                            {{ order['status'] }}
+                        </span>
+                    </div>
                 </div>
-                {% endif %}
+                
+                <div class="p-5">
+                    <h2 class="font-bold text-xl text-gray-800">{{ order['product_name'] }}</h2>
+                    
+                    <div class="mt-3 space-y-2">
+                        <div class="flex items-center text-gray-700">
+                            <i class="fas fa-tags w-5 text-green-600"></i>
+                            <span>श्रेणी: {{ order['category'] }}</span>
+                        </div>
+                        <div class="flex items-center text-gray-700">
+                            <i class="fas fa-balance-scale w-5 text-green-600"></i>
+                            <span>प्रमाण: {{ order['quantity'] }} {{ order['unit'] }}</span>
+                        </div>
+                        <div class="flex items-center text-gray-700">
+                            <i class="fas fa-rupee-sign w-5 text-green-600"></i>
+                            <span>किंमत: <span class="font-semibold">{{ order['price'] }}</span></span>
+                        </div>
+                        <div class="flex items-center text-gray-700">
+                            <i class="far fa-calendar-alt w-5 text-green-600"></i>
+                            <span>ऑर्डर दिनांक: {{ order['added_at'] }}</span>
+                        </div>
+                        <div class="flex items-center text-gray-700">
+                            <span>शेतकऱ्याचे नाव: {{ order['farmer_name'] }}</span>
+                        </div>
+                        <div class="flex items-center text-gray-700">
+                            <span>शेतकऱ्याचा फोन: {{ order['farmer_phone'] }}</span>
+                        </div>
+                    </div>
+
+                    {% if order['farmer_phone'] %}
+                    <div class="mt-5 flex flex-col sm:flex-row gap-2">
+                        <a href="tel:{{ order['farmer_phone'] }}" class="flex-1 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition">
+                            <i class="fas fa-phone-alt mr-2"></i>
+                            <span>कॉल करा</span>
+                        </a>
+                        <a href="https://wa.me/{{ order['farmer_phone'] }}?text=नमस्कार, मी {{ order['product_name'] }} Order केले आहे, जो {{ order['added_at'] }} रोजी ऑर्डर केला. प्रमाण: {{ order['quantity'] }} {{ order['unit'] }} आणि किंमत: {{ order['price'] }} आहे. कृपया डिलिव्हरी स्थिती काय आहे?"
+                            target="_blank" class="flex-1 flex items-center justify-center bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg transition">
+                            <i class="fab fa-whatsapp mr-2"></i>
+                            <span>व्हॉट्सअॅप</span>
+                        </a>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <button class="text-green-600 hover:text-green-800 text-sm font-medium flex items-center">
+                                <i class="fas fa-sync-alt mr-1"></i> पुन्हा ऑर्डर करा
+                            </button>
+                            <button class="text-gray-600 hover:text-gray-800 text-sm font-medium flex items-center">
+                                <i class="fas fa-info-circle mr-1"></i> तपशील पहा
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
             {% endfor %}
         </div>
+
+        <!-- Empty state with graphic -->
         {% else %}
-        <p>कोणत्याही ऑर्डर आढळल्या नाहीत.</p>
+        <div class="text-center py-16 flex flex-col items-center">
+            <div class="w-40 h-40 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                <i class="fas fa-shopping-cart text-green-500 text-5xl animate-pulse-slow"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">कोणत्याही ऑर्डर आढळल्या नाहीत</h2>
+            <p class="text-gray-600 max-w-md mx-auto mb-6">आपण अद्याप कोणतीही उत्पादने खरेदी केलेली दिसत नाहीत. ताज्या शेतीमालासाठी मार्केटप्लेस एक्सप्लोर करा.</p>
+            <a href="/marketplace" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow-md flex items-center">
+                <i class="fas fa-store mr-2"></i> मार्केटप्लेस एक्सप्लोर करा
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- Pagination -->
+        {% if orders and orders|length > 9 %}
+        <div class="mt-12 flex justify-center">
+            <nav class="flex items-center space-x-2">
+                <a href="#" class="px-3 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+                <a href="#" class="px-4 py-2 rounded-md bg-green-600 text-white">1</a>
+                <a href="#" class="px-4 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">2</a>
+                <a href="#" class="px-4 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">3</a>
+                <span class="px-2 text-gray-600">...</span>
+                <a href="#" class="px-4 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">8</a>
+                <a href="#" class="px-3 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </nav>
+        </div>
         {% endif %}
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-leaf mr-2"></i> AgriLink
+                    </h3>
+                    <p class="text-gray-400">शेतकरी आणि ग्राहक यांच्यातील सर्वोत्तम कनेक्शन. ताज्या शेतीमालासाठी आमच्या अॅपचा वापर करा.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">लिंक्स</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">मुख्यपृष्ठ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">मार्केटप्लेस</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">माझ्या ऑर्डर्स</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">संपर्क</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">संपर्क</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2 text-green-500"></i>
+                            <span>+91 8421204008</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2 text-green-500"></i>
+                            <span>help@agrilink.in</span>
+                        </li>
+                    </ul>
+                    <div class="mt-4 flex space-x-3">
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
+                <p>© 2025 AgriLink. सर्व हक्क राखीव.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple animation effects when cards come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card-hover');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
 </body>
 
 </html>

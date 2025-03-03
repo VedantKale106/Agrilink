@@ -6,76 +6,184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>शेतकरी ऑर्डर्स - AgriLink</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .status-badge {
+            border-radius: 9999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            height: 56px;
+            width: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+        .floating-button:hover {
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 
-<body class="bg-gray-100">
-    <nav class="bg-green-600 p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="/farmer/dashboard" class="text-white text-xl font-bold">AgriLink</a>
-            <a href="/logout" class="bg-white text-green-600 px-4 py-2 rounded">बाहेर पडणे</a>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-green-600 to-green-500 shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="/farmer/dashboard" class="flex items-center">
+                    <i class="fas fa-leaf text-white mr-2 text-xl"></i>
+                    <span class="text-white text-xl font-bold">AgriLink</span>
+                </a>
+                <a href="/logout" class="bg-white text-green-600 px-4 py-2 rounded-lg shadow hover:bg-gray-100 transition-colors flex items-center">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    <span>बाहेर पडणे</span>
+                </a>
+            </div>
         </div>
-    </nav>
+    </header>
 
-    <main class="container mx-auto mt-8 px-4">
-        <h1 class="text-2xl font-bold mb-6">माझ्या ऑर्डर्स</h1>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 flex items-center">
+                <i class="fas fa-shopping-bag mr-3 text-green-600"></i>
+                माझ्या ऑर्डर्स
+            </h1>
+            <div class="flex space-x-2">
+                <button class="bg-white border border-gray-300 text-gray-700 px-3 py-2 rounded-lg shadow-sm hover:bg-gray-50 transition-colors flex items-center">
+                    <i class="fas fa-filter mr-2"></i>
+                    <span class="hidden md:inline">फिल्टर</span>
+                </button>
+                <button class="bg-white border border-gray-300 text-gray-700 px-3 py-2 rounded-lg shadow-sm hover:bg-gray-50 transition-colors flex items-center">
+                    <i class="fas fa-sort mr-2"></i>
+                    <span class="hidden md:inline">सॉर्ट</span>
+                </button>
+            </div>
+        </div>
 
+        <!-- Orders Grid -->
         {% if orders %}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {% for order in orders %}
-            <div class="border rounded-lg p-4 shadow-lg">
-                <img src="{{ order['image'] }}" class="w-full h-40 object-cover rounded">
-                <h2 class="font-bold text-xl mt-2">{{ order['product_name'] }}</h2>
-                <p>ग्राहक: {{ order['customer']['first_name'] }} {{ order['customer']['last_name'] }}</p>
-                <p>फोन: {{ order['customer_phone'] }}</p>
-                <p>पत्ता: {{ order['customer']['address'] }}</p>
-                <p>प्रमाण: {{ order['quantity'] }} {{ order['unit'] }}</p>
-                <p>किंमत: {{ order['price'] }}</p>
-                <p
-                    class="font-semibold {% if order['status'] == 'Delivered' %} text-green-600 {% else %} text-red-600 {% endif %}">
-                    स्थिती: {{ order['status'] }}
-                </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for order in orders|reverse %}
+            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-5 card-hover border border-gray-100">
+                <div class="relative">
+                    <img src="{{ order['image'] }}" class="w-full h-48 object-cover rounded-lg" alt="{{ order['product_name'] }}">
+                    <div class="absolute top-2 right-2">
+                        <span class="status-badge {% if order['status'] == 'Delivered' %} bg-green-100 text-green-800 {% else %} bg-yellow-100 text-yellow-800 {% endif %}">
+                            {% if order['status'] == 'Delivered' %}
+                            <i class="fas fa-check-circle mr-1"></i>
+                            {% else %}
+                            <i class="fas fa-clock mr-1"></i>
+                            {% endif %}
+                            {{ order['status'] }}
+                        </span>
+                    </div>
+                </div>
+                
+                <h2 class="font-bold text-xl mt-4 text-gray-800">{{ order['product_name'] }}</h2>
+                
+                <div class="mt-3 space-y-2">
+                    <div class="flex items-start">
+                        <i class="fas fa-user-circle mt-1 text-gray-500 w-5"></i>
+                        <p class="ml-2 text-gray-700">{{ order['customer']['first_name'] }} {{ order['customer']['last_name'] }}</p>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <i class="fas fa-phone-alt mt-1 text-gray-500 w-5"></i>
+                        <p class="ml-2 text-gray-700">{{ order['customer_phone'] }}</p>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <i class="fas fa-map-marker-alt mt-1 text-gray-500 w-5"></i>
+                        <p class="ml-2 text-gray-700">{{ order['customer']['address'] }}</p>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <i class="fas fa-balance-scale mt-1 text-gray-500 w-5"></i>
+                        <p class="ml-2 text-gray-700">{{ order['quantity'] }} {{ order['unit'] }}</p>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <i class="fas fa-rupee-sign mt-1 text-gray-500 w-5"></i>
+                        <p class="ml-2 font-medium text-gray-900">{{ order['price'] }}</p>
+                    </div>
+                </div>
 
                 {% if order['status'] == 'Delivered' %}
-                <p>डिलिव्हरी तारीख: {{ order['delivered_at'] }}</p>
+                <div class="mt-3 flex items-center text-gray-600 text-sm">
+                    <i class="fas fa-calendar-check mr-2"></i>
+                    <span>डिलिव्हरी तारीख: {{ order['delivered_at'] }}</span>
+                </div>
                 {% endif %}
 
-                {% if order['status'] == 'Pending' %}
-                <form action="{{ url_for('deliver_order', order_id=order['_id']) }}" method="POST">
-                    <button type="submit"
-                        class="bg-green-600 text-white px-4 py-2 rounded-lg w-full mt-3">डिलिव्हर्ड</button>
-                </form>
-                {% endif %}
+                <div class="mt-5 space-y-3">
+                    {% if order['status'] == 'Pending' %}
+                    <form action="{{ url_for('deliver_order', order_id=order['_id']) }}" method="POST">
+                        <button type="submit"
+                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg w-full transition-colors flex items-center justify-center">
+                            <i class="fas fa-truck mr-2"></i>
+                            डिलिव्हर्ड
+                        </button>
+                    </form>
+                    {% endif %}
 
-                <!-- Buttons to contact the customer -->
-                <div class="mt-3">
-                    <!-- WhatsApp Contact Button with prefilled message -->
-                    <a href="https://wa.me/{{ order['customer_phone'] }}?text=नमस्कार, मी {{ order['product_name'] }} उत्पादित केले आहे, जो {{ order['added_at'] }} रोजी ऑर्डर केला. कृपया आपला डिलिव्हरी पत्ता आणि ऑर्डरची पुष्टी करा. ऑर्डर प्रमाण: {{ order['quantity'] }} {{ order['unit'] }} आणि किंमत: {{ order['price'] }} आहे. कृपया याची पुष्टी करा आणि डिलिव्हरीसाठी पुढील कृती कधी करावी ते सांगू शकता का?"
-                        target="_blank"
-                        class="bg-green-600 text-white px-4 py-2 rounded-lg w-full mb-2 block text-center">
-                        व्हॉट्सअॅपवर संपर्क करा
-                    </a>
+                    <div class="grid grid-cols-2 gap-3">
+                        <a href="https://wa.me/{{ order['customer_phone'] }}?text=नमस्कार, मी {{ order['product_name'] }} उत्पादित केले आहे, जो {{ order['added_at'] }} रोजी ऑर्डर केला. कृपया आपला डिलिव्हरी पत्ता आणि ऑर्डरची पुष्टी करा. ऑर्डर प्रमाण: {{ order['quantity'] }} {{ order['unit'] }} आणि किंमत: {{ order['price'] }} आहे. कृपया याची पुष्टी करा आणि डिलिव्हरीसाठी पुढील कृती कधी करावी ते सांगू शकता का?"
+                            target="_blank"
+                            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center justify-center transition-colors">
+                            <i class="fab fa-whatsapp mr-2"></i>
+                            व्हॉट्सअॅप
+                        </a>
 
-
-                    <!-- Phone Contact Button -->
-                    <a href="tel:{{ order['customer_phone'] }}"
-                        class="bg-blue-600 text-white px-4 py-2 rounded-lg w-full block text-center">
-                        फोनवर संपर्क करा
-                    </a>
+                        <a href="tel:{{ order['customer_phone'] }}"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center justify-center transition-colors">
+                            <i class="fas fa-phone-alt mr-2"></i>
+                            फोन
+                        </a>
+                    </div>
                 </div>
             </div>
             {% endfor %}
         </div>
         {% else %}
-        <p>कोणत्याही ऑर्डर आढळल्या नाहीत.</p>
+        <div class="bg-white rounded-xl shadow-sm p-10 text-center">
+            <div class="text-gray-400 mb-4">
+                <i class="fas fa-shopping-basket text-5xl"></i>
+            </div>
+            <h3 class="text-xl font-medium text-gray-700 mb-2">कोणत्याही ऑर्डर आढळल्या नाहीत</h3>
+            <p class="text-gray-500">तुमच्याकडे सध्या कोणतेही ऑर्डर नाहीत.</p>
+            <a href="/farmer/products" class="mt-4 inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition-colors">
+                उत्पादने जोडा
+            </a>
+        </div>
         {% endif %}
     </main>
 
-    <a href="javascript:history.back()"
-        style="position: fixed; bottom: 20px; right: 20px; background-color: #007bff; color: white; border-radius: 50%; padding: 15px; text-align: center; text-decoration: none; font-size: 16px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); z-index: 1000; transition: background-color 0.3s ease;"
-        onmouseover="this.style.backgroundColor='#0056b3';" onmouseout="this.style.backgroundColor='#007bff';">
-        <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Back
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-button bg-blue-600 hover:bg-blue-700 text-white transition-colors">
+        <i class="fas fa-arrow-left"></i>
     </a>
-    <script src="https://kit.fontawesome.com/your-font-awesome-kit-id.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

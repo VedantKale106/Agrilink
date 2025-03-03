@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="mr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,52 +9,70 @@
     <style>
         /* Custom Styles for better Marathi readability */
         body {
-            font-family: 'Arial', sans-serif; /* You can replace with a Marathi font if available */
+            font-family: 'Arial', sans-serif;
         }
+
         label {
-            font-size: 1rem; /* Increase label font size */
+            font-size: 1rem;
         }
-        input[type="text"], input[type="number"] {
-            font-size: 1rem; /* Increase input font size */
+
+        input,
+        select {
+            font-size: 1rem;
         }
     </style>
 </head>
-<body class="bg-green-50 min-h-screen flex flex-col items-center justify-center">
 
-    <div class="container mx-auto p-4 md:w-2/3 lg:w-1/2 bg-white rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold text-green-700 mb-4 text-center">तुमच्या उत्पादनाची बोली लावा</h2>
-        <form method="post" class="space-y-4">
-            <div>
-                <label for="product_name" class="block text-gray-700 font-medium">उत्पादनाचे नाव:</label>
-                <input type="text" name="product_name" id="product_name" required
-                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-            </div>
+<body class="bg-green-50 min-h-screen flex flex-col">
 
-            <div>
-                <label for="base_price" class="block text-gray-700 font-medium">बेस किंमत (₹):</label>
-                <input type="number" name="base_price" id="base_price" required
-                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-            </div>
+    <header class="bg-green-100 py-12 text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <h1 class="text-4xl font-extrabold text-green-800 mb-4">तुमच्या उत्पादनाची बोली लावा आणि योग्य किंमत मिळवा!</h1>
+            <p class="text-lg text-gray-700">Agrilink वर आपल्या शेतमालाची बोली लावून योग्य ग्राहक शोधा आणि अधिक नफा मिळवा.</p>
+        </div>
+    </header>
 
-            <div>
-                <label for="quantity" class="block text-gray-700 font-medium">Quantity (प्रमाण):</label>
-                <input type="number" name="quantity" id="quantity" required
-                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-            </div>
+    <main class="flex-grow flex items-center justify-center px-4">
+        <div class="w-full max-w-md bg-white p-6 rounded-xl shadow-lg">
+            <h2 class="text-2xl font-bold text-green-700 mb-5 text-center">तुमच्या उत्पादनाची बोली लावा</h2>
 
-            <div>
-                <label for="image_url" class="block text-gray-700 font-medium">Image URL (फोटो URL):</label>
-                <input type="text" name="image_url" id="image_url" required
-                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-            </div>
+            <form method="post" enctype="multipart/form-data" class="space-y-5">
+                <div>
+                    <label for="product_name" class="block text-gray-700 font-medium">🌱 उत्पादनाचे नाव:</label>
+                    <input type="text" name="product_name" id="product_name" required placeholder="उत्पादनाचे नाव प्रविष्ट करा"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none">
+                </div>
 
-            <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white font-medium py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-300">
-                बोली जोडा
-            </button>
-        </form>
+                <div>
+                    <label for="base_price" class="block text-gray-700 font-medium">💰 बेस किंमत (₹):</label>
+                    <input type="number" name="base_price" id="base_price" required placeholder="उत्पादनाची बेस किंमत प्रविष्ट करा"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none">
+                </div>
 
-        <a href="{{ url_for('farmer_dashboard') }}" class="block mt-4 text-center text-green-700 hover:underline">डॅशबोर्डवर परत जा</a>
-    </div>
+                <div>
+                    <label for="quantity" class="block text-gray-700 font-medium">📊 प्रमाण:</label>
+                    <input type="number" name="quantity" id="quantity" required placeholder="उत्पादनाचे प्रमाण प्रविष्ट करा"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <label for="image_url" class="block text-gray-700 font-medium">📷 फोटो URL:</label>
+                    <input type="text" name="image_url" id="image_url" placeholder="https://example.com/photo.jpg"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none">
+                </div>
+
+
+                <button type="submit"
+                    class="w-full bg-green-600 text-white font-bold py-3 rounded-lg shadow-md hover:bg-green-700 transition-all duration-300">
+                    ✅ बोली जोडा
+                </button>
+            </form>
+
+            <a href="{{ url_for('farmer_dashboard') }}"
+                class="block mt-5 text-center text-green-700 hover:underline font-medium">🔙 डॅशबोर्डवर परत जा</a>
+        </div>
+    </main>
 
 </body>
+
 </html>

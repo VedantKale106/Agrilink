@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Profile - AgriLink</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #48BB78; /* Green border */
+            margin: 0 auto 20px;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 0 10px;
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100">
@@ -19,8 +35,11 @@
     </nav>
 
     <main class="container mx-auto mt-8 px-4">
-        <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow">
-            <h1 class="text-2xl font-bold text-gray-800 mb-4">माझी प्रोफाइल</h1>
+        <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow">
+            <div class="text-center">
+                <img src="/static/default_customer.jpeg" alt="Profile Picture" class="profile-image">
+                <h1 class="text-2xl font-bold text-gray-800 mb-4">माझी प्रोफाइल</h1>
+            </div>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -33,14 +52,14 @@
             <form method="POST" action="{{ url_for('customer_profile') }}">
                 <div class="mb-4">
                     <label class="block text-gray-700 font-bold mb-2" for="first_name">पहिले नाव</label>
-                    <input type="text" id="first_name" name="first_name" value="{{ customer.first_name }}" 
-                           class="w-full p-2 border border-gray-300 rounded">
+                    <input type="text" id="first_name" name="first_name" value="{{ customer.first_name }}"
+                           class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400">
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-gray-700 font-bold mb-2" for="last_name">आडनाव</label>
-                    <input type="text" id="last_name" name="last_name" value="{{ customer.last_name }}" 
-                           class="w-full p-2 border border-gray-300 rounded">
+                    <input type="text" id="last_name" name="last_name" value="{{ customer.last_name }}"
+                           class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400">
                 </div>
 
                 <div class="mb-4">
@@ -51,17 +70,17 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 font-bold mb-2" for="phone">फोन</label>
-                    <input type="tel" id="phone" name="phone" value="{{ customer.phone }}" 
-                           class="w-full p-2 border border-gray-300 rounded">
+                    <input type="tel" id="phone" name="phone" value="{{ customer.phone }}"
+                           class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400">
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-gray-700 font-bold mb-2" for="address">पत्ता</label>
-                    <input type="text" id="address" name="address" value="{{ customer.address }}" 
-                           class="w-full p-2 border border-gray-300 rounded">
+                    <input type="text" id="address" name="address" value="{{ customer.address }}"
+                           class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400">
                 </div>
 
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded w-full">अपडेट करा</button>
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full transition duration-300">अपडेट करा</button>
             </form>
         </div>
     </main>

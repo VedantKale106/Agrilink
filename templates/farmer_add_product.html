@@ -4,219 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>उत्पादन जोडा</title>
-    <style>
-        /* Global Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Body Styling */
-        body {
-            font-family: 'Arial', sans-serif; /* Replace with a suitable Marathi font */
-            background-color: #f8fafc;
-            color: #333;
-        }
-
-        /* Navigation Bar */
-        nav {
-            background-color: #4CAF50;
-            padding: 15px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-        }
-
-        nav ul li {
-            margin: 0 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 25px;
-            transition: background-color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            background-color: #45a049;
-        }
-
-        /* Container for the form */
-        .container {
-            width: 70%;
-            max-width: 700px;
-            margin: 60px auto;
-            padding: 30px;
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .container h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 28px;
-            color: #4CAF50;
-        }
-
-        /* Form Styling */
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #555;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            border-color: #4CAF50;
-            outline: none;
-        }
-
-        /* Submit Button */
-        button {
-            width: 100%;
-            padding: 15px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #45a049;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                width: 90%;
-            }
-
-            nav ul {
-                flex-direction: column;
-            }
-
-            nav ul li {
-                margin: 10px 0;
-            }
-        }
-
-        /* Additional Styles for Read-only Fields */
-        input[readonly] {
-            background-color: #f1f1f1;
-            cursor: not-allowed;
-        }
-
-        /* Add a subtle shadow to form inputs */
-        .form-group input {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Form header and spacing */
-        .form-header {
-            text-align: left;
-            font-size: 20px;
-            margin-bottom: 15px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        /* Hover effect on form fields */
-        .form-group input:hover, .form-group select:hover {
-            border-color: #5ac152;
-        }
-
-        .price-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .price-group input, .price-group select {
-            flex: 1;
-        }
-
-        /* Make Selects Look Nicer on Mobile */
-        @media (max-width: 768px) {
-            .price-group {
-                flex-direction: column;
-            }
-        }
-    </style>
+    <title>नवीन उत्पादन जोडा</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <nav>
-        <ul>
-            <li><a href="/farmer/dashboard">शेतकरी डॅशबोर्ड</a></li>
+<body class="bg-gray-100 text-gray-900">
+    <!-- Navbar -->
+    <nav class="bg-green-600 p-4 shadow-md">
+        <ul class="flex justify-center space-x-6">
+            <li><a href="/farmer/dashboard" class="text-white font-bold hover:underline">शेतकरी डॅशबोर्ड</a></li>
         </ul>
     </nav>
 
-    <div class="container">
-        <h2>नवीन उत्पादन जोडा</h2>
+    <!-- Form Container -->
+    <div class="max-w-lg mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg">
+        <h2 class="text-center text-2xl font-bold text-green-600 mb-5">नवीन उत्पादन जोडा</h2>
 
-        <div class="form-group">
-            <label for="farmer_name">शेतकरी नाव:</label>
-            <input type="text" id="farmer_name" name="farmer_name" value="{{ farmer_name }}" readonly>
+        <!-- Farmer Details -->
+        <div class="mb-4">
+            <label for="farmer_name" class="block font-semibold">👨‍🌾 शेतकरी नाव:</label>
+            <input type="text" id="farmer_name" name="farmer_name" value="{{ farmer_name }}" class="w-full p-2 border rounded-md bg-gray-100" readonly>
         </div>
 
-        <div class="form-group">
-            <label for="farmer_location">स्थान:</label>
-            <input type="text" id="farmer_location" name="farmer_location" value="{{ farmer_location }}" readonly>
+        <div class="mb-4">
+            <label for="farmer_location" class="block font-semibold">📍 स्थान:</label>
+            <input type="text" id="farmer_location" name="farmer_location" value="{{ farmer_location }}" class="w-full p-2 border rounded-md bg-gray-100" readonly>
         </div>
 
+        <!-- Form -->
         <form action="/farmer/add_product" method="POST" enctype="multipart/form-data">
-            <div class="form-header">उत्पादनाची माहिती</div>
-
-            <div class="form-group">
-                <label for="product_name">उत्पादनाचे नाव:</label>
-                <input type="text" id="product_name" name="product_name" required>
+            <div class="mb-4">
+                <label for="product_name" class="block font-semibold">🌱 उत्पादनाचे नाव:</label>
+                <input type="text" id="product_name" name="product_name" required class="w-full p-2 border rounded-md focus:ring-2 focus:ring-green-400">
             </div>
 
-            <div class="form-group">
-                <label for="category">श्रेणी:</label>
-                <select id="category" name="category" required>
-                    <option value="" disabled selected>श्रेणी निवडा</option>
-                    <option value="Vegetables">भाज्या</option>
-                    <option value="Fruits">फळे</option>
-                    <option value="Grains">धान्य</option>
-                    <option value="Dairy">दूध</option>
-                    <option value="Poultry">कुक्कुट</option>
+            <div class="mb-4">
+                <label for="category" class="block font-semibold">📦 श्रेणी:</label>
+                <select id="category" name="category" required class="w-full p-2 border rounded-md focus:ring-2 focus:ring-green-400">
+                    <option value="" disabled selected>🔽 श्रेणी निवडा</option>
+                    <option value="Vegetables">🥦 भाज्या</option>
+                    <option value="Fruits">🍎 फळे</option>
+                    <option value="Grains">🌾 धान्य</option>
+                    <option value="Dairy">🥛 दूध</option>
+                    <option value="Poultry">🐔 कुक्कुट</option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="price">किंमत:</label>
-                <div class="price-group">
-                    <input type="number" id="price" name="price" required placeholder="किंमत प्रविष्ट करा">
-                    <select id="price_unit" name="price_unit" required>
+            <div class="mb-4">
+                <label for="price" class="block font-semibold">💰 किंमत:</label>
+                <div class="flex space-x-2">
+                    <input type="number" id="price" name="price" required placeholder="किंमत प्रविष्ट करा" class="w-full p-2 border rounded-md focus:ring-2 focus:ring-green-400">
+                    <select id="price_unit" name="price_unit" required class="p-2 border rounded-md focus:ring-2 focus:ring-green-400">
                         <option value="per kg">प्रति किलोग्राम</option>
                         <option value="per dozen">प्रति डझन</option>
                         <option value="per litre">प्रति लिटर</option>
@@ -224,19 +62,26 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="quantity">प्रमाण:</label>
-                <input type="number" id="quantity" name="quantity" min="1" required>
+
+            <div class="mb-4">
+                <label for="quantity" class="block font-semibold">📊 प्रमाण:</label>
+                <input type="number" id="quantity" name="quantity" min="1" required class="w-full p-2 border rounded-md focus:ring-2 focus:ring-green-400">
             </div>
 
-            <div class="form-group">
-                <label for="image_url">उत्पादनाचा प्रतिमा URL:</label>
-                <input type="url" id="image_url" name="image_url" required placeholder="https://example.com/image.jpg">
+            <div class="mb-4">
+                <label for="image_url" class="block font-semibold">📷 उत्पादनाचा फोटो URL:</label>
+                <input type="url" id="image_url" name="image_url" required placeholder="https://example.com/image.jpg" class="w-full p-2 border rounded-md focus:ring-2 focus:ring-green-400">
             </div>
 
-            <button type="submit">उत्पादन जोडा</button>
+
+            <button type="submit" class="w-full bg-green-600 text-white p-3 rounded-md font-bold hover:bg-green-700 transition">✅ उत्पादन जोडा</button>
         </form>
     </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-gray-600 mt-10 p-4">
+        <p>&copy; 2025 कृषी बाजारपेठ | विकसित: <a href="https://vedantkale.vercel.app/" class="text-green-600 font-bold">वेदांत काळे</a></p>
+    </footer>
 </body>
 
 </html>

@@ -289,15 +289,21 @@ def customer_orders():
     for order in orders:
         if 'farmer_id' in order:
             farmer = farmers_collection.find_one({'_id': ObjectId(order['farmer_id'])})
-            if farmer and 'phone' in farmer:
-                order['farmer_phone'] = farmer['phone']
+            if farmer:
+                if 'phone' in farmer:
+                    order['farmer_phone'] = farmer['phone']
+                if 'farmer_name' in farmer:
+                    order['farmer_name'] = farmer['farmer_name'] # Add farmer name to the order
+            else:
+                order['farmer_name'] = "Farmer Not Found" #Handle case when farmer does not exist.
+        else:
+            order['farmer_name'] = "Farmer ID Missing" #Handle case when farmer_id does not exist.
 
         # Format 'added_at' to show only the date (YYYY-MM-DD) without time
         if 'added_at' in order and isinstance(order['added_at'], datetime):
             order['added_at'] = order['added_at'].strftime('%Y-%m-%d')  # Format to 'YYYY-MM-DD'
 
     return render_template('customer_orders.html', orders=orders)
-
 
 
 
@@ -502,6 +508,7 @@ def customer_biddings():
 
     return render_template('customer_biddings.html', biddings=biddings)
 
+
 @app.route('/farmer/biddings')
 def farmer_biddings():
     if 'user_id' not in session or session['user_type'] != 'farmer':
@@ -509,6 +516,28 @@ def farmer_biddings():
 
     farmer_id = session['user_id']
     biddings = list(biddings_collection.find({'farmer_id': ObjectId(farmer_id)}))
+
+    # Fetch bidder names
+    for bid in biddings:
+        if 'highest_bidder' in bid and bid['highest_bidder']:
+            bidder_id = bid['highest_bidder']
+            bidder = customers_collection.find_one({'_id': ObjectId(bidder_id)})
+            if bidder:
+                first_name = bidder.get('first_name', '')
+                last_name = bidder.get('last_name', '')
+                if first_name and last_name:
+                    bid['highest_bidder_name'] = f"{first_name} {last_name}"
+                elif first_name:
+                    bid['highest_bidder_name'] = first_name
+                elif last_name:
+                    bid['highest_bidder_name'] = last_name
+                else:
+                    bid['highest_bidder_name'] = "Unknown Bidder"
+
+            else:
+                bid['highest_bidder_name'] = "User Not Found"
+        else:
+            bid['highest_bidder_name'] = None
 
     return render_template('farmer_biddings.html', biddings=biddings)
 

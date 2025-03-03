@@ -3,49 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>बोली सूचना जोडा</title>
+    <title>बोली सूचना जोडा - Agrilink</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Poppins', sans-serif; /* Use Poppins font */
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 1rem;
+            color: #6B7280;
+        }
+        
+        .icon-input {
+            padding-left: 2.5rem;
+        }
+        
+        .form-card {
+            transition: all 0.3s ease;
+        }
+        
+        .form-card:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-input:focus {
+            border-color: #22C55E;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
         }
     </style>
 </head>
-<body class="bg-green-100">
-    <div class="container mx-auto px-4 py-8">
-        <h2 class="text-2xl font-semibold mb-4 text-center text-green-700">नवीन बोली जोडा</h2>
-        <form method="POST" class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-            <div class="mb-4">
-                <label for="product_name" class="block text-gray-700 text-sm font-bold mb-2">उत्पादनाचे नाव:</label>
-                <input type="text" id="product_name" name="product_name" class="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" required>
+<body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <header class="mb-8">
+            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <i class="fas fa-seedling text-green-600 text-3xl mr-3"></i>
+                    <h1 class="text-3xl font-bold text-gray-800">
+                        <span class="text-green-600">Agri</span>link
+                    </h1>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-700">नवीन बोली जोडा</h2>
+                <a href="/farmer/dashboard" class="flex items-center text-blue-600 hover:text-blue-800 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    <span>डॅशबोर्डवर परत जा</span>
+                </a>
             </div>
-
-            <div class="mb-4">
-                <label for="base_price" class="block text-gray-700 text-sm font-bold mb-2">किंमत (₹):</label>
-                <input type="number" id="base_price" name="base_price" step="0.01" class="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" required>
+        </header>
+        
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white p-8 rounded-xl shadow-md form-card">
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
+                        <i class="fas fa-gavel text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800">नवीन बोली सूचना जोडा</h3>
+                    <p class="text-gray-500 mt-2">आपल्या कृषी उत्पादनांसाठी बोली प्रक्रिया सुरू करा</p>
+                </div>
+                
+                <form method="POST" class="space-y-6">
+                    <head>
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+                    </head>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-1">
+                            <label for="product_name" class="block text-gray-700 font-medium">उत्पादनाचे नाव</label>
+                            <div class="input-group">
+                                <i class="fas fa-box input-icon"></i>
+                                <input type="text" id="product_name" name="product_name" placeholder="उदा. टोमॅटो, बटाटे, कांदे, इ." 
+                                    class="w-full border border-gray-300 px-3 py-3 rounded-lg form-input icon-input focus:outline-none pl-10" required>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-1">
+                            <label for="quantity" class="block text-gray-700 font-medium">नग/किलो</label>
+                            <div class="input-group">
+                                <i class="fas fa-weight-hanging input-icon"></i>
+                                <input type="number" id="quantity" name="quantity" min="1" placeholder="उदा. 50" 
+                                    class="w-full border border-gray-300 px-3 py-3 rounded-lg form-input icon-input focus:outline-none pl-10" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <label for="base_price" class="block text-gray-700 font-medium">प्रति किलो/नग किंमत (₹)</label>
+                        <div class="input-group">
+                            <i class="fas fa-rupee-sign input-icon"></i>
+                            <input type="number" id="base_price" name="base_price" step="0.01" min="0" placeholder="उदा. 25.50" 
+                                class="w-full border border-gray-300 px-3 py-3 rounded-lg form-input icon-input focus:outline-none pl-10" required>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">ही किंमत बोलीचा आधार म्हणून वापरली जाईल</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-1">
+                            <label for="bid_date" class="block text-gray-700 font-medium">बोली सुरू होण्याची तारीख</label>
+                            <div class="input-group">
+                                <i class="fas fa-calendar-alt input-icon"></i>
+                                <input type="date" id="bid_date" name="bid_date" 
+                                    class="w-full border border-gray-300 px-3 py-3 rounded-lg form-input icon-input focus:outline-none pl-10" required>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-1">
+                            <label for="bid_time" class="block text-gray-700 font-medium">बोली सुरू होण्याची वेळ</label>
+                            <div class="input-group">
+                                <i class="fas fa-clock input-icon"></i>
+                                <input type="time" id="bid_time" name="bid_time" 
+                                    class="w-full border border-gray-300 px-3 py-3 rounded-lg form-input icon-input focus:outline-none pl-10" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <label for="image_upload" class="block text-gray-700 font-medium">उत्पादनाचे फोटो अपलोड करा (वैकल्पिक)</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-green-500 transition cursor-pointer">
+                            <i class="fas fa-camera text-gray-400 text-3xl mb-2"></i>
+                            <p class="text-gray-500">फोटो अपलोड करण्यासाठी येथे क्लिक करा किंवा ड्रॅग अँड ड्रॉप करा</p>
+                            <input type="file" id="image_upload" name="image_upload" class="hidden" accept="image/*">
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                            <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-plus-circle mr-2"></i>
+                                बोली जोडा
+                            </button>
+                            <a href="/farmer/dashboard" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-times-circle mr-2"></i>
+                                रद्द करा
+                            </a>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-            <div class="mb-4">
-                <label for="quantity" class="block text-gray-700 text-sm font-bold mb-2">नग:</label>
-                <input type="number" id="quantity" name="quantity" class="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" required>
+            
+            <div class="mt-8 p-4 bg-blue-50 border border-blue-100 rounded-lg text-blue-800 text-sm">
+                <div class="flex items-start">
+                    <i class="fas fa-info-circle text-blue-600 text-lg mr-3 mt-1"></i>
+                    <div>
+                        <h4 class="font-semibold mb-1">बोली प्रक्रियेबद्दल माहिती</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>आपण सुरू केलेली बोली 24 तासांसाठी सक्रिय राहील</li>
+                            <li>सर्व नोंदणीकृत खरेदीदार आपल्या उत्पादनासाठी बोली लावू शकतात</li>
+                            <li>आपण कधीही बोली समाप्त करू शकता</li>
+                            <li>बोली समाप्त झाल्यानंतर, आपण सर्वात जास्त बोली लावणाऱ्याशी संपर्क करू शकता</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-
-            <div class="mb-4">
-                <label for="bid_date" class="block text-gray-700 text-sm font-bold mb-2">बोली सुरू होण्याची तारीख:</label>
-                <input type="date" id="bid_date" name="bid_date" class="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="bid_time" class="block text-gray-700 text-sm font-bold mb-2">बोली सुरू होण्याची वेळ:</label>
-                <input type="time" id="bid_time" name="bid_time" class="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" required>
-            </div>
-
-            <div class="flex justify-center">
-                <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md mr-2 focus:outline-none focus:ring-2 focus:ring-green-300">जमा करा</button>
-                <a href="/farmer/dashboard" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300">डॅशबोर्डवर परत जा</a>
-            </div>
-        </form>
+        </div>
     </div>
+    
+    <footer class="mt-10 text-center text-gray-500 text-sm p-4">
+        <p>© 2025 Agrilink - शेतकरी समुदायाला शक्ती देत</p>
+    </footer>
+    
+    <script>
+        // Simple script to handle the file upload UI
+        document.querySelector('.border-dashed').addEventListener('click', function() {
+            document.getElementById('image_upload').click();
+        });
+        
+        document.getElementById('image_upload').addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                document.querySelector('.border-dashed i').className = 'fas fa-check-circle text-green-500 text-3xl mb-2';
+                document.querySelector('.border-dashed p').textContent = this.files[0].name;
+                document.querySelector('.border-dashed').classList.add('border-green-500');
+                document.querySelector('.border-dashed').classList.add('bg-green-50');
+            }
+        });
+    </script>
 </body>
 </html>
