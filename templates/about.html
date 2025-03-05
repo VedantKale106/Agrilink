@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Agrilink</title>
+    <title>Agrilink - Bridging Farmers and Consumers</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2e7d32;
-            --secondary-color: #388e3c;
-            --accent-color: #f1f8e9;
-            --text-dark: #333;
-            --text-light: #666;
-            --white: #fff;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --primary-green: #2ecc71;
+            --dark-green: #27ae60;
+            --light-green: #e8f5e9;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --white: #ffffff;
+            --shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
         * {
@@ -23,14 +23,12 @@
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
-            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
-                        url("{{ url_for('static', filename='featurecover.jpg') }}");
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
+            background: linear-gradient(135deg, 
+                rgba(46, 204, 113, 0.05) 0%, 
+                rgba(255, 255, 255, 0.95) 100%);
         }
 
         .container {
@@ -41,78 +39,121 @@
 
         .header {
             text-align: center;
-            padding: 3rem 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
+            padding: 4rem 0;
+            background: linear-gradient(to right, var(--primary-green), var(--dark-green));
+            color: var(--white);
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" opacity="0.1"%3E%3Cpattern id="pattern" width="100" height="100" patternUnits="userSpaceOnUse"%3E%3Cpath d="M0 0 L50 50 L100 0 L50 50 Z" fill="rgba(255,255,255,0.1)" /%3E%3C/pattern%3E%3Crect width="100%" height="100%" fill="url(%23pattern)" /%3E%3C/svg%3E');
         }
 
         .header h1 {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
+            font-size: 3rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
         }
 
-        .mission-section {
+        .section {
             background-color: var(--white);
-            padding: 2rem;
-            border-radius: 15px;
+            border-radius: 20px;
+            padding: 3rem;
             box-shadow: var(--shadow);
             margin-bottom: 2rem;
         }
 
-        .mission-section h2 {
-            color: var(--secondary-color);
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-        }
-
-        .mission-content {
-            background-color: var(--accent-color);
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 5px solid var(--primary-color);
-        }
-
-        .team-section {
-            background-color: var(--white);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
-
-        .team-section h2 {
-            color: var(--secondary-color);
+        .section h2 {
+            color: var(--dark-green);
             margin-bottom: 2rem;
+            font-size: 2.2rem;
             text-align: center;
-            font-size: 1.8rem;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--primary-green);
+        }
+
+        .section-content {
+            background-color: var(--light-green);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 6px solid var(--dark-green);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
         }
 
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
-            padding: 1rem;
         }
 
         .team-member {
-            background-color: var(--white);
-            border-radius: 15px;
+            background-color: var(--light-green);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
         .team-member:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
         .team-member img {
             width: 100%;
-            height: 200px;
+            height: 300px;
             object-fit: cover;
-            border-bottom: 3px solid var(--primary-color);
+            filter: grayscale(20%);
+            transition: filter 0.3s ease;
+        }
+
+        .team-member:hover img {
+            filter: grayscale(0);
         }
 
         .team-member-info {
@@ -121,81 +162,61 @@
         }
 
         .team-member-info h3 {
-            color: var(--primary-color);
+            color: var(--dark-green);
             margin-bottom: 0.5rem;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
         .team-member-info .role {
-            color: var(--secondary-color);
+            color: var(--text-light);
             font-weight: 600;
             margin-bottom: 1rem;
-        }
-
-        .team-member-info .description {
-            color: var(--text-light);
-            font-size: 0.9rem;
         }
 
         .back-button {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            background-color: var(--primary-color);
+            background-color: var(--primary-green);
             color: var(--white);
-            padding: 1rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 50%;
             text-decoration: none;
             box-shadow: var(--shadow);
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             z-index: 1000;
         }
 
         .back-button:hover {
-            background-color: var(--secondary-color);
+            background-color: var(--dark-green);
+            transform: scale(1.1);
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-
-            .header {
-                padding: 2rem 1rem;
-            }
-
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
-            .team-grid {
+            .section {
+                padding: 2rem;
+            }
+
+            .feature-grid, .team-grid {
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 1.5rem;
-            }
-
-            .team-member img {
-                height: 180px;
             }
         }
 
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
 
-            .mission-section,
-            .team-section {
-                padding: 1.5rem;
-            }
-
-            .team-grid {
+            .feature-grid, .team-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .back-button {
-                bottom: 1rem;
-                right: 1rem;
-                padding: 0.8rem;
             }
         }
     </style>
@@ -203,65 +224,111 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1>आमच्याबद्दल</h1>
+            <h1>Agrilink: Connecting Agriculture</h1>
         </header>
 
-        <section class="mission-section">
-            <h2>आमचा ध्येय</h2>
-            <div class="mission-content">
-                <p>Agrilink मध्ये, आम्ही शेतकऱ्यांसाठी आणि ग्राहकांसाठी मधला भेद समाप्त करणे आणि शेतकऱ्यांना त्यांच्या उत्पादनांचे योग्य मूल्य मिळवून देणे हे लक्ष्य ठेवले आहे, तर ग्राहक थेट स्रोताकडून ताजे, सेंद्रिय उत्पादने खरेदी करू शकतात.</p>
-                <br>
-                <p>आम्ही शाश्वत शेतीच्या पद्धतींवर विश्वास ठेवतो आणि स्थानिक कृषीच्या विकासासाठी वचनबद्ध आहोत. आमचे प्लॅटफॉर्म शेतकऱ्यांना सक्षम करण्यासाठी डिझाइन केले आहे, ज्यामुळे त्यांना त्यांच्या उत्पादनांचे प्रदर्शन करण्यास आणि ग्राहकांशी प्रभावीपणे संपर्क साधण्यास मदत होते.</p>
-            </div>
-        </section>
-
-        <section class="team-section">
-            <h2>आमची टीम</h2>
+        <section class="section team-section">
+            <h2>Our Team</h2>
             <div class="team-grid">
                 <div class="team-member">
-                    <img src="{{ url_for('static', filename='images/sushma.jpg') }}" alt="Sushma Vispute">
+                    <img src="/static/images/sushma_mam.png" alt="Sushma Vispute">
                     <div class="team-member-info">
                         <h3>Sushma Vispute</h3>
                         <p class="role">Project Guide</p>
-                        <p class="description">प्रकल्पाच्या मार्गदर्शक म्हणून, त्या संपूर्ण टीमला मार्गदर्शन करतात आणि प्रकल्पाची दिशा ठरवतात.</p>
+                        <p class="description">A visionary leader with extensive experience in agricultural innovation, guiding the team's strategic direction.</p>
                     </div>
                 </div>
 
                 <div class="team-member">
-                    <img src="{{ url_for('static', filename='images/team1.jpg') }}" alt="Vedant Kale">
+                    <img src="/static/images/vedant.jpg" alt="Vedant Kale">
                     <div class="team-member-info">
                         <h3>Vedant Kale</h3>
                         <p class="role">Flask & Backend Developer</p>
-                        <p class="description">Vedant प्लॅटफॉर्मच्या मागील भागाची रचना करण्यासाठी जबाबदार आहे, ज्यामुळे ऑपरेशन्स आणि डेटा व्यवस्थापन सुलभ होतो.</p>
+                        <p class="description">A technical expert crafting robust backend solutions to ensure seamless platform performance.</p>
                     </div>
                 </div>
 
                 <div class="team-member">
-                    <img src="{{ url_for('static', filename='images/team2.jpeg') }}" alt="Aaditesh Kadu">
+                    <img src="/static/images/aaditesh.jpeg" alt="Aaditesh Kadu">
                     <div class="team-member-info">
                         <h3>Aaditesh Kadu</h3>
-                        <p class="role">HTML, CSS & MongoDB तज्ञ</p>
-                        <p class="description">Aaditesh फ्रंटेंड विकास आणि डेटाबेस व्यवस्थापनावर लक्ष केंद्रित करतो, वापरकर्ता अनुकूल इंटरफेस तयार करतो.</p>
+                        <p class="role">Frontend & Database Expert</p>
+                        <p class="description">Designing intuitive interfaces and managing data infrastructure for optimal user experience.</p>
                     </div>
                 </div>
 
                 <div class="team-member">
-                    <img src="{{ url_for('static', filename='images/team3.jpg') }}" alt="Aditya Joshi">
+                    <img src="/static/images/aditya.jpg" alt="Aditya Joshi">
                     <div class="team-member-info">
                         <h3>Aditya Joshi</h3>
-                        <p class="role">UI/UX डिझाइनर</p>
-                        <p class="description">Aditya वापरकर्त्यांचा अनुभव डिझाइन करतो जो प्लॅटफॉर्मला शेतकऱ्यांसाठी आणि ग्राहकांसाठी वापरण्यासाठी अनुकूल आणि आकर्षक बनवतो.</p>
+                        <p class="role">UI/UX Designer</p>
+                        <p class="description">Creating visually appealing and user-friendly designs that make agricultural technology accessible.</p>
                     </div>
                 </div>
 
                 <div class="team-member">
-                    <img src="{{ url_for('static', filename='images/team4.jpg') }}" alt="Prathmesh Dudhale">
+                    <img src="/static/images/prathmesh.jpg" alt="Prathmesh Dudhale">
                     <div class="team-member-info">
                         <h3>Prathmesh Dudhale</h3>
-                        <p class="role">वेब डेव्हलपर</p>
-                        <p class="description">Prathmesh वेबसाइटच्या एकूण विकासाचे निरीक्षण करतो, ज्यामुळे ती प्रभावीपणे चालते आणि वापरकर्त्यांच्या गरजांची पूर्तता होते.</p>
+                        <p class="role">Web Developer</p>
+                        <p class="description">Ensuring the platform's smooth functionality and continuous technological improvement.</p>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section class="section mission-section">
+            <h2>Our Mission</h2>
+            <div class="section-content">
+                <p>Agrilink is a revolutionary platform designed to bridge the gap between farmers and consumers, creating a transparent, efficient, and sustainable agricultural ecosystem. Our mission is to empower local farmers, ensure fair compensation, and provide consumers with direct access to fresh, high-quality produce.</p>
+                <br>
+                <p>We believe in transforming the traditional agricultural supply chain by leveraging technology to create meaningful connections. Our platform serves as a digital marketplace that supports local agriculture, promotes sustainable farming practices, and helps consumers make informed, ethical food choices.</p>
+            </div>
+        </section>
+
+        <section class="section features-section">
+            <h2>Our Key Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Sustainable Agriculture</h3>
+                    <p>Promoting eco-friendly farming practices and supporting farmers who prioritize environmental sustainability.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>Direct Connection</h3>
+                    <p>Creating a direct marketplace where farmers can showcase their produce and consumers can purchase directly.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Fair Pricing</h3>
+                    <p>Ensuring fair compensation for farmers by eliminating middlemen and reducing unnecessary supply chain costs.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Digital Empowerment</h3>
+                    <p>Providing digital tools and resources to help farmers improve their marketing and sales strategies.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section impact-section">
+            <h2>Our Impact</h2>
+            <div class="section-content">
+                <p>Since our inception, Agrilink has been committed to creating positive change in the agricultural sector. We've helped hundreds of local farmers increase their market reach, improve their income, and adopt more sustainable farming practices.</p>
+                <br>
+                <p>Our platform goes beyond just being a marketplace. We provide educational resources, technical support, and a community platform where farmers can share knowledge, learn new techniques, and grow together.</p>
+            </div>
+        </section>
+
+        
+
+        <section class="section vision-section">
+            <h2>Our Vision</h2>
+            <div class="section-content">
+                <p>Looking ahead, Agrilink aims to become a transformative force in agriculture. We envision a future where technology bridges the gap between rural producers and urban consumers, creating a more equitable, transparent, and sustainable food ecosystem.</p>
+                <br>
+                <p>Our long-term goals include expanding our platform to support more farmers, introducing advanced technological solutions like AI-driven crop predictions, and creating a global network of sustainable agriculture advocates.</p>
             </div>
         </section>
     </div>
